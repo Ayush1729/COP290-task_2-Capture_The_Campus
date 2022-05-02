@@ -912,6 +912,34 @@ public:
         	SDL_SetRenderDrawColor( gRenderer, 0, 255, 0, 255 );
         }
         SDL_RenderFillRect( gRenderer, &fillRect );
+
+
+        //Render text
+        SDL_Color textColor = { 255, 255, 255 };
+        if( !loadFromRenderedText(to_string(soldiers), textColor, gflappy)) {
+            std::cout<<"Failed to render text texture in planet!"<<std::endl;
+            error_occ = true;
+        }
+    
+        SDL_Rect titl_pos = { x-5-curr_screen_x, y-5-curr_screen_y, 10*SCALING_FACTOR_X, 10*SCALING_FACTOR_Y  };
+        // Text on screen
+        SDL_RenderCopy( gRenderer, gTextTexture, NULL, &titl_pos );
+	}
+
+
+	void reset(){
+
+		this->alive = false;
+		this->prev->next = this->next;
+
+		if (this->next!=NULL){
+		this->next->prev = this->prev;}
+
+		// set things like pointers, object names to null, basically free memory
+		this->next = NULL;
+		this->prev = NULL;
+		this->dest = NULL;
+		delete this;
 	}
 
 };
