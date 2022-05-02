@@ -24,7 +24,7 @@ What all to include in this main file:
 
 bool init(){
     // initialize SDL
-	if( SDL_Init(SDL_INIT_VIDEO) < 0 )
+	if( SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0 )
 	{
 		std::cout<<"SDL could not initialize! SDL_Error: " << SDL_GetError();
 		error_occ = true;
@@ -68,6 +68,15 @@ bool init(){
                     std::cout<<"SDL_ttf could not initialize! SDL_ttf Error: "<<TTF_GetError()<<std::endl;
                     error_occ = true;
                 }
+
+                //Initialize SDL_mixer
+                if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 )
+                {
+                    std::cout<<"SDL_mixer could not initialize! SDL_mixer Error: "<< Mix_GetError()<< endl;
+                    error_occ = true;
+                }
+
+
             }
         }
 	}
@@ -76,125 +85,6 @@ bool init(){
 }
 
 
-/*
-
-SDL_Texture* loadTexture(char* path)
-{
-    //The final texture
-    SDL_Texture* newTexture = NULL;
-
-    //Load image at specified path
-    SDL_Surface* loadedSurface = IMG_Load(path);
-    if( loadedSurface == NULL )
-    {
-        std::cout<<"Unable to load image ! SDL_image Error: "<< IMG_GetError();
-    }
-    else
-    {
-        //Create texture from surface pixels
-        newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
-        if( newTexture == NULL )
-        {
-            std::cout<<"Unable to create texture from! SDL Error: "<< SDL_GetError() ;
-        }
-
-        //Get rid of old loaded surface
-        SDL_FreeSurface( loadedSurface );
-        loadedSurface = NULL;
-    }
-
-    return newTexture;
-}
-
-
-bool loadFromRenderedText(std::string textureText, SDL_Color textColor )
-{
-    //Get rid of preexisting texture
-    //free();
-
-    //Render text surface
-    SDL_Surface* textSurface = TTF_RenderText_Solid( gFont, textureText.c_str(), textColor );
-    if( textSurface == NULL )
-    {
-        std::cout<<"Unable to render text surface! SDL_ttf Error: "<<TTF_GetError()<<std::endl;
-    }
-    else
-    {
-        //Create texture from surface pixels
-        gTextTexture = SDL_CreateTextureFromSurface( gRenderer, textSurface );
-        if( gTextTexture == NULL )
-        {
-            std::cout<<"Unable to create texture from rendered text! SDL Error: "<< SDL_GetError()<<std::endl;
-        }
-        /*else
-        {
-            //Get image dimensions
-            mWidth = textSurface->w;
-            mHeight = textSurface->h;
-        }*/
-/*
-        //Get rid of old surface
-        SDL_FreeSurface( textSurface );
-    }
-    
-    //Return success
-    return gTextTexture != NULL;
-}
-
-
-/*
-bool loadMedia()
-{
-
-    //Load PNG texture
-    gTexture =  loadTexture("Graphics/background.jpg");
-    gTexture2 =  loadTexture("Graphics/wallpaper.jpg");
-    gTexture3 = loadTexture("Graphics/wolf.png");
-    gTexture4 =  loadTexture("Graphics/Title.png");
-    gTexture5 =  loadTexture("Graphics/iitd-campus.png");
-    gTexture_blue_fire =  loadTexture("Graphics/Blue_Fire.png");
-    gTexture_blue_wall =  loadTexture("Graphics/Blue_Wall.jpg");
-    gTexture_red_wall =  loadTexture("Graphics/Red_Wall.jpg");
-    gTexture_red_fire =  loadTexture("Graphics/Red_Fire.png");
-    gTexture_emp =  loadTexture("Graphics/Purple_Orb.png");
-    gTexture_shield =  loadTexture("Graphics/Green_Orb.png");
-    gTexture_blue_acid =  loadTexture("Graphics/Blue_Acid.png");
-    gTexture_red_acid =  loadTexture("Graphics/Red_Acid.png");
-
-
-
-
-    if( gTexture == NULL or gTexture2 == NULL or gTexture3 == NULL or gTexture4 == NULL or gTexture5 == NULL)
-    {
-        std::cout<<"Failed to load texture image!\n";
-        error_occ = true;
-    }
-
-
-    //Open the font
-    gFont = TTF_OpenFont( "16_true_type_fonts/lazy.ttf", 28 );
-    if( gFont == NULL )
-    {
-        std::cout<<"Failed to load lazy font! SDL_ttf Error: "<< TTF_GetError()<<std::endl;
-        error_occ = true;
-    }
-    else
-    {
-        //Render text
-        SDL_Color textColor = { 0, 0, 0 };
-        if( !loadFromRenderedText("The quick brown fox jumps over the lazy dog", textColor ) )
-        {
-            std::cout<<"Failed to render text texture!"<<std::endl;
-            error_occ = true;
-        }
-    }
-
-
-
-    return error_occ;    
-}
-
-*/
 
 
 void close()
@@ -240,6 +130,42 @@ void close()
     SDL_DestroyTexture( gTexture_blue_wall );
     gTexture_blue_wall = NULL;
 
+    SDL_DestroyTexture( gTexture_freeze );
+    gTexture_freeze = NULL;
+
+    SDL_DestroyTexture( gSelect_image );
+    gSelect_image = NULL;
+
+
+    SDL_DestroyTexture( gTexture_fire_button );
+    gTexture_fire_button = NULL;
+
+    SDL_DestroyTexture( gTexture_wall_button );
+    gTexture_wall_button = NULL;
+
+    SDL_DestroyTexture( gTexture_acid_button );
+    gTexture_acid_button = NULL;
+
+    SDL_DestroyTexture( gTexture_emp_button );
+    gTexture_emp_button = NULL;
+
+    SDL_DestroyTexture( gTexture_shield_button );
+    gTexture_shield_button = NULL;
+
+    SDL_DestroyTexture( gTexture_freeze_button );
+    gTexture_freeze_button = NULL;
+
+
+
+
+
+
+    SDL_DestroyTexture(gTexture_instructions_text);
+    gTexture_instructions_text = NULL;
+
+    SDL_DestroyTexture(gTexture_powers_text);
+    gTexture_powers_text = NULL;
+
     
 
 
@@ -247,9 +173,41 @@ void close()
     SDL_DestroyTexture( gTextTexture );
     gTextTexture = NULL;
 
-    //Free global font
-    TTF_CloseFont( gFont );
-    gFont = NULL;
+    //Free gflappy font
+    TTF_CloseFont( gflappy );
+    gflappy = NULL;
+
+    //Free gaerobusdotty font
+    TTF_CloseFont( gaerobusdotty );
+    gaerobusdotty = NULL;
+
+    TTF_CloseFont( gPacifico );
+    gPacifico = NULL;
+
+    
+
+
+
+
+
+    //Free the sound effects
+    Mix_FreeChunk( gbegin_sound );
+    Mix_FreeChunk( gSelect_sound );
+    Mix_FreeChunk( gVictory_sound );
+    Mix_FreeChunk( gLow );
+    gbegin_sound = NULL;
+    gSelect_sound = NULL;
+    gVictory_sound = NULL;
+    gLow = NULL;
+    
+    //Free the music
+    Mix_FreeMusic( gMusic );
+    Mix_FreeMusic(gPlay_Music);
+    gMusic = NULL;
+    gPlay_Music = NULL;
+
+
+
 
 
     //Destroy window    
@@ -259,6 +217,7 @@ void close()
     gRenderer = NULL;
 
     //Quit SDL subsystems
+    Mix_Quit();
     TTF_Quit();
     IMG_Quit();
     SDL_Quit();
@@ -286,13 +245,11 @@ int main( int argc, char* args[] )
         }else{
 
             //create all state objects
-            Start_State start_state;
-            Options_State options_state;
-            Play_State play_state;
-
-            /*map <string, State> gStateMachine;
-            gStateMachine["Start"] = start_state;*/
-
+            Start_State* start_state = new Start_State();
+            Options_State* options_state = new Options_State();
+            Play_State* play_state = new Play_State();
+            Powers_State* powers_state = new Powers_State();
+            GameOver_State* gameover_state = new GameOver_State();
 
             while (!quit){
                 temp_time = SDL_GetTicks();
@@ -305,13 +262,16 @@ int main( int argc, char* args[] )
                     SCALING_FACTOR_Y = h/SCREEN_HEIGHT;
                     
                     if (gState == "Start"){
-                        start_state.update(dt/1000);
-                        //start_state.render();
+                        start_state->update(dt/1000);
                     }else if (gState == "Options"){
-                        options_state.update(dt/1000);
+                        options_state->update(dt/1000);
+                    }else if (gState == "Powers"){
+                        powers_state->update(dt/1000);
                     }else if (gState == "Play"){
-                        play_state.update(dt/1000);
-                        play_state.render();
+                        play_state->render();
+                        play_state->update(dt/1000);
+                    }else if (gState == "GameOver"){
+                        gameover_state->update(dt/1000);
                     }
                     else{
                         quit = true;
@@ -328,31 +288,5 @@ int main( int argc, char* args[] )
 
     return 0;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
