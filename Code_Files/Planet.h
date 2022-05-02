@@ -16,7 +16,6 @@ public:
 	int power_strength;
 	float radius;
 
-	Planet* target;
 
 
 
@@ -42,7 +41,6 @@ public:
 	float spawn_time = 1;
 	int outgoing_soldiers = 0;
 
-	//Planet* shield_building;
 
 
 
@@ -103,32 +101,47 @@ public:
 	}
 
 	void render(float curr_screen_x, float curr_screen_y){
-        SDL_Rect fillRect = { x-15-curr_screen_x, y-15-curr_screen_y, 30*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
+        SDL_Rect fillRect = { x-20-curr_screen_x, y-20-curr_screen_y, 40*SCALING_FACTOR_X, 40*SCALING_FACTOR_Y  };
         if (loyalty=="Red"){
         	SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 150 );
         	SDL_RenderFillRect( gRenderer, &fillRect );
-        	for (int i = 0;i<soldiers/4; i++){
-        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%35)-17), y-curr_screen_y-((rand()%35)-17), 2, 2 };
+        	for (int i = 0;i<soldiers; i++){
+        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%80)-40), y-curr_screen_y-((rand()%80)-40), 3, 3 };
         		SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 255 );
         		SDL_RenderFillRect( gRenderer, &particleRect );
         	}
         }else if (loyalty == "Blue"){
         	SDL_SetRenderDrawColor( gRenderer, 0, 0, 255, 150 );
         	SDL_RenderFillRect( gRenderer, &fillRect );
-        	for (int i = 0;i<soldiers/4; i++){
-        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%35)-17), y-curr_screen_y-((rand()%35)-17), 2, 2 };
+        	for (int i = 0;i<soldiers; i++){
+        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%80)-40), y-curr_screen_y-((rand()%80)-40), 3, 3 };
         		SDL_SetRenderDrawColor( gRenderer, 0, 0, 255, 255 );
         		SDL_RenderFillRect( gRenderer, &particleRect );
         	}
         }else{
-        	SDL_SetRenderDrawColor( gRenderer, 0, 255, 0, 150 );
+        	SDL_SetRenderDrawColor( gRenderer, 50, 175, 50, 150 );
         	SDL_RenderFillRect( gRenderer, &fillRect );
-        	for (int i = 0;i<soldiers/4; i++){
-        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%35)-17), y-curr_screen_y-((rand()%35)-17), 2, 2 };
-        		SDL_SetRenderDrawColor( gRenderer, 0, 255, 0, 255 );
+        	for (int i = 0;i<soldiers; i++){
+        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%80)-40), y-curr_screen_y-((rand()%80)-40), 3, 3 };
+        		SDL_SetRenderDrawColor( gRenderer, 50, 175, 50, 150 );
         		SDL_RenderFillRect( gRenderer, &particleRect );
         	}
         }
+
+
+
+        //Render text
+        SDL_Color textColor = { 255, 255, 255 };
+        if( !loadFromRenderedText(to_string(soldiers), textColor, gPacifico)) {
+            std::cout<<"Failed to render text texture in planet!"<<std::endl;
+            error_occ = true;
+        }
+
+        SDL_Rect titl_pos = { x-15-curr_screen_x, y-15-curr_screen_y, 30*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
+        // Text on screen
+        SDL_RenderCopy( gRenderer, gTextTexture, NULL, &titl_pos );
+
+
 
 	}
 
@@ -153,5 +166,26 @@ public:
 		}
 		return outgoing_soldiers;
 	}
+
+
+
+
+
+
+
+
+	void reset(){
+		soldiers = 20;
+		power_available = true;
+		power_restore_time = 15;
+		power_stay_time = -1;
+
+		loyalty = "None";
+		captured = false;
+		spawn_time = 1;
+		outgoing_soldiers = 0;
+	}
+
+
 
 };
