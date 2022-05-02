@@ -78,4 +78,18 @@ class DoublyLinkedList{
 			}
 			temp = NULL;
 		}
+
+
+		void reset(){
+			SoldierPacket* temp;
+			SoldierPacket* temp_next;
+			temp = start_sentinel->next;
+			while (temp->next != NULL){
+				temp_next = temp->next;
+				temp->reset();
+				temp = temp_next;
+			}
+			temp = NULL;
+			temp_next = NULL;
+		}
 };
