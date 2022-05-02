@@ -13,17 +13,7 @@ class CannonBall {
 
 		CannonBall(Planet* Cannon_building){
 
-			/*
-			x = Cannon_building->x;
-			y = Cannon_building->y;
-			*/
-
 			my_Cannon_building = Cannon_building;
-			/*my_target_packet = target_packet;
-
-			target_x = my_target_packet->x;
-			target_y = my_target_packet->y;*/
-
 			alive = false;
 			speed = 15;
 		}
@@ -70,6 +60,12 @@ class CannonBall {
 	        	SDL_SetRenderDrawColor( gRenderer, 100, 100, 100, 150 );
 	        	SDL_RenderFillRect( gRenderer, &fillRect );
         	}
+	    }
+
+
+	    void reset(){
+	    	alive = false;
+	    	my_target_packet = NULL;
 	    }
 
 
