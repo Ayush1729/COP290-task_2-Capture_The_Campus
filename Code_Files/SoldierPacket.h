@@ -549,37 +549,37 @@ public:
 		else if (origin->identity == "LHC"){ 
 
 			if (destination->identity == "Vindhyachal"){
-				//
+				mypath = Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C;
 			}else if (destination->identity == "Kara"){
-				//
+				mypath = Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B;
 			}else if (destination->identity == "OAT"){
-				//
+				mypath = Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z8 + Z8_E;
 			}else if (destination->identity == "Apartments boys"){
-				//
+				mypath = Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B + B_Z4 + Z4_F + F_G;
 			}else if (destination->identity == "Masala Mix"){
-				//
+				mypath = Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_J;
 			}else if (destination->identity == "Jwala"){
-				//
+				mypath =  Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C + C_Z1 + Z1_A;
 			}else if (destination->identity == "Hospital"){
-				//
+				mypath =  Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K;
 			}else if (destination->identity == "Playground"){
-				//
+				mypath =  Q_Z11 + Z11_Z10 + Z10_M + M_L;
 			}else if (destination->identity == "Research Park"){
-				//
+				mypath =  Q_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_H + H_X;
 			}else if (destination->identity == "Main Building"){
-				//
+				mypath =  Q_Z11 + Z11_Z10 + Z10_M + M_N + N_Z9 + Z9_O;
 			}else if (destination->identity == "Library"){
-				//
+				mypath = Q_Z11 + Z11_Z10 + Z10_M + M_N;
 			}else if (destination->identity == "Himadri"){
-				//
+				mypath = Q_Z11 + Z11_P + P_R + R_U + U_S;
 			}else if (destination->identity == "Kendriya Vidyalaya"){
-				//
+				mypath = Q_Z11 + Z11_P + P_R;
 			}else if (destination->identity == "Amaltas"){
-				//
+				mypath = Q_Z11 + Z11_P + P_R + R_U + U_Z14 + Z14_T;
 			}else if (destination->identity == "IITD Market"){
-				//
+				mypath = Q_Z11 + Z11_P + P_R + R_U + U_Z14 + Z14_Z15 + Z15_V;
 			}else if (destination->identity == "Apartments girls"){
-				//
+				mypath = Q_Z11 + Z11_P + P_R + R_U + U_Z14 + Z14_Z15 + Z15_V + V_Z16 + Z16_W;
 			}
 		}
 
@@ -593,37 +593,37 @@ public:
 		else if (origin->identity == "Himadri"){ 
 
 			if (destination->identity == "Vindhyachal"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C;
 			}else if (destination->identity == "Kara"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B;
 			}else if (destination->identity == "OAT"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z8 + Z8_E;
 			}else if (destination->identity == "Apartments boys"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B + B_Z4 + Z4_F + F_G;
 			}else if (destination->identity == "Masala Mix"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_J;
 			}else if (destination->identity == "Jwala"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C + C_Z1 + Z1_A;
 			}else if (destination->identity == "Hospital"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K;
 			}else if (destination->identity == "Playground"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L;
 			}else if (destination->identity == "Research Park"){
-				//
+				mypath = S_U + U_Z14 + Z14_Z15 + Z15_V + V_Z16 + Z16_W + W_X;
 			}else if (destination->identity == "Main Building"){
-				//
+				mypath = S_U + U_R + R_P + P_Z12 + Z12_Z13 + Z13_O;
 			}else if (destination->identity == "Library"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_N;
 			}else if (destination->identity == "LHC"){
-				//
+				mypath = S_U + U_R + R_P + P_Z11 + Z11_Q;
 			}else if (destination->identity == "Kendriya Vidyalaya"){
-				//
+				mypath = S_U + U_R;
 			}else if (destination->identity == "Amaltas"){
-				//
+				mypath = S_U + U_Z14 + Z14_T;
 			}else if (destination->identity == "IITD Market"){
-				//
+				mypath = S_U + U_Z14 + Z14_Z15 + Z15_V;
 			}else if (destination->identity == "Apartments girls"){
-				//
+				mypath = S_U + U_Z14 + Z14_Z15 + Z15_V + V_Z16 + Z16_W;
 			}
 		}
 
@@ -637,37 +637,37 @@ public:
 		else if (origin->identity == "Kendriya Vidyalaya"){ 
 
 			if (destination->identity == "Vindhyachal"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C;
 			}else if (destination->identity == "Kara"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B;
 			}else if (destination->identity == "OAT"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z8 + Z8_E;
 			}else if (destination->identity == "Apartments boys"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B + B_Z4 + Z4_F + F_G;
 			}else if (destination->identity == "Masala Mix"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_J;
 			}else if (destination->identity == "Jwala"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C + C_Z1 + Z1_A;
 			}else if (destination->identity == "Hospital"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K;
 			}else if (destination->identity == "Playground"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_L;
 			}else if (destination->identity == "Research Park"){
-				//
+				mypath = R_U + U_Z14 + Z14_Z15 + Z15_V + V_Z16 + Z16_W + W_X;
 			}else if (destination->identity == "Main Building"){
-				//
+				mypath = R_P + P_Z12 + Z12_Z13 + Z13_O;
 			}else if (destination->identity == "Library"){
-				//
+				mypath = R_P + P_Z11 + Z11_Z10 + Z10_M + M_N;
 			}else if (destination->identity == "LHC"){
-				//
+				mypath = R_P + P_Z11 + Z11_Q;
 			}else if (destination->identity == "Himadri"){
-				//
+				mypath = R_U + U_S;
 			}else if (destination->identity == "Amaltas"){
-				//
+				mypath = R_U + U_Z14 + Z14_T;
 			}else if (destination->identity == "IITD Market"){
-				//
+				mypath = R_U + U_Z14 + Z14_Z15 + Z15_V;
 			}else if (destination->identity == "Apartments girls"){
-				//
+				mypath = R_U + U_Z14 + Z14_Z15 + Z15_V + V_Z16 + Z16_W;
 			}
 		}
 
@@ -683,37 +683,37 @@ public:
 		else if (origin->identity == "Amaltas"){ 
 
 			if (destination->identity == "Vindhyachal"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C;
 			}else if (destination->identity == "Kara"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B;
 			}else if (destination->identity == "OAT"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z8 + Z8_E;
 			}else if (destination->identity == "Apartments boys"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B + B_Z4 + Z4_F + F_G;
 			}else if (destination->identity == "Masala Mix"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_J;
 			}else if (destination->identity == "Jwala"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C + C_Z1 + Z1_A;
 			}else if (destination->identity == "Hospital"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K;
 			}else if (destination->identity == "Playground"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L;
 			}else if (destination->identity == "Research Park"){
-				//
+				mypath = T_Z14 + Z14_Z15 + Z15_V + V_Z16 + Z16_W + W_X;
 			}else if (destination->identity == "Main Building"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z12 + Z12_Z13 + Z13_O;
 			}else if (destination->identity == "Library"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_N;
 			}else if (destination->identity == "LHC"){
-				//
+				mypath = T_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Q;
 			}else if (destination->identity == "Himadri"){
-				//
+				mypath = T_Z14 + Z14_U + U_S;
 			}else if (destination->identity == "Kendriya Vidyalaya"){
-				//
+				mypath = T_Z14 + Z14_U + U_R;
 			}else if (destination->identity == "IITD Market"){
-				//
+				mypath = T_Z14 + Z14_Z15 + Z15_V;
 			}else if (destination->identity == "Apartments girls"){
-				//
+				mypath = T_Z14 + Z14_Z15 + Z15_V + V_Z16 + Z16_W;
 			}
 		}
 
@@ -729,37 +729,37 @@ public:
 		else if (origin->identity == "IITD Market"){ 
 
 			if (destination->identity == "Vindhyachal"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C;
 			}else if (destination->identity == "Kara"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_B;
 			}else if (destination->identity == "OAT"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z8 + Z8_E;
 			}else if (destination->identity == "Apartments boys"){
-				//
+				mypath = V_Z16 + Z16_W + W_X + X_H + H_Z6 + Z6_Z5 + Z5_F + F_G;
 			}else if (destination->identity == "Masala Mix"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_J;
 			}else if (destination->identity == "Jwala"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K + K_I + I_D + D_Z2 + Z2_C + C_Z1 + Z1_A;
 			}else if (destination->identity == "Hospital"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L + L_K;
 			}else if (destination->identity == "Playground"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L;
 			}else if (destination->identity == "Research Park"){
-				//
+				mypath = V_Z16 + Z16_W + W_X;
 			}else if (destination->identity == "Main Building"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z12 + Z12_Z13 + Z13_O;
 			}else if (destination->identity == "Library"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_N;
 			}else if (destination->identity == "LHC"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Q;
 			}else if (destination->identity == "Himadri"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_S;
 			}else if (destination->identity == "Kendriya Vidyalaya"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_U + U_R;
 			}else if (destination->identity == "Amaltas"){
-				//
+				mypath = V_Z15 + Z15_Z14 + Z14_T;
 			}else if (destination->identity == "Apartments girls"){
-				//
+				mypath = V_Z16 + Z16_W;
 			}
 		}
 
@@ -772,37 +772,37 @@ public:
 		else if (origin->identity == "Apartments girls"){ 
 
 			if (destination->identity == "Vindhyachal"){
-				//
+				mypath = W_X + X_H + H_I + I_D + D_Z2 + Z2_C; 
 			}else if (destination->identity == "Kara"){
-				//
+				mypath = W_X + X_H + H_I + I_D + D_B;
 			}else if (destination->identity == "OAT"){
-				//
+				mypath = W_X + X_H + H_I + I_D + D_Z8 + Z8_E;
 			}else if (destination->identity == "Apartments boys"){
-				//
+				mypath = W_X + X_H + H_Z6 + Z6_Z5 + Z5_F + F_G;
 			}else if (destination->identity == "Masala Mix"){
-				//
+				mypath = W_X + X_H + H_I + I_J;
 			}else if (destination->identity == "Jwala"){
-				//
+				mypath = W_X + X_H + H_I + I_D + D_Z2 + Z2_C + C_Z1 + Z1_A;
 			}else if (destination->identity == "Hospital"){
-				//
+				mypath = W_X + X_H + H_I + I_K;
 			}else if (destination->identity == "Playground"){
-				//
+				mypath = W_Z16 + Z16_V + V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_L;
 			}else if (destination->identity == "Research Park"){
-				//
+				mypath = W_X;
 			}else if (destination->identity == "Main Building"){
-				//
+				mypath = W_Z16 + Z16_V + V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z12 + Z12_Z13 + Z13_O;
 			}else if (destination->identity == "Library"){
-				//
+				mypath = W_Z16 + Z16_V + V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Z10 + Z10_M + M_N;
 			}else if (destination->identity == "LHC"){
-				//
+				mypath = W_Z16 + Z16_V + V_Z15 + Z15_Z14 + Z14_U + U_R + R_P + P_Z11 + Z11_Q;
 			}else if (destination->identity == "Himadri"){
-				//
+				mypath = W_Z16 + Z16_V + V_Z15 + Z15_Z14 + Z14_U + U_S;
 			}else if (destination->identity == "Kendriya Vidyalaya"){
-				//
+				mypath = W_Z16 + Z16_V + V_Z15 + Z15_Z14 + Z14_U + U_R;
 			}else if (destination->identity == "Amaltas"){
-				//
+				mypath = W_Z16 + Z16_V + V_Z15 + Z15_Z14 + Z14_T;
 			}else if (destination->identity == "IITD Market"){
-				//
+				mypath = W_Z16 + Z16_V;
 			}
 		}
 
