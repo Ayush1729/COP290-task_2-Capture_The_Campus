@@ -29,23 +29,26 @@ public:
 			
 		}
 
-		if ((this->loyalty != emp_building->loyalty) and (emp_building->power_stay_time>0) and ((pow(this->x - emp_building->power_circle_centre_x,2) + pow(this->y - emp_building->power_circle_centre_y,2)) < pow(emp_building->radius,2))) {
+		if ((this->loyalty != emp_building->loyalty) and (emp_building->power_available) and (emp_building->power_stay_time>0) and ((pow(this->x - emp_building->power_circle_centre_x,2) + pow(this->y - emp_building->power_circle_centre_y,2)) < pow(emp_building->radius,2))) {
 			this->collided(emp_building->loyalty, emp_building->power_strength, shield_building);
-		}
-		
-
-		if (power_available == false){
-			power_restore_time-=(dt);
-			if (power_restore_time<0){
-				power_restore_time = 15;
-				power_available = true;
-			}
-			
-		}
-
-		if (power_stay_time>0){
-			power_stay_time-=dt;
+			emp_building->power_available = false;
 		}
 
 	}
+
+
+	void reset(){
+		soldiers = 50;
+
+		if (captured){
+			if (loyalty=="Blue"){loyalty = "Red";}
+			else {loyalty = "Blue";}
+		}
+
+		captured = false;
+		spawn_time = 1;
+		outgoing_soldiers = 0;
+	}
+
+
 };
