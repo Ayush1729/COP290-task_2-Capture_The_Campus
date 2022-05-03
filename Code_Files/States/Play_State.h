@@ -658,7 +658,7 @@ class Play_State{
                                         else if ((Current_view_x + (click_x)/(SCALING_FACTOR_X) > 2208) and (Current_view_x + (click_x)/(SCALING_FACTOR_X) < 2366) and (Current_view_y + (click_y)/(SCALING_FACTOR_Y) > 428) and (Current_view_y + (click_y)/(SCALING_FACTOR_Y) < 542) and (School->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = School->x; Research->power_circle_centre_y = School->y; correct_place_click = true;}
                                         if (correct_place_click){
                                             Research->power_stay_time = 1;
-                                            Research->radius = 120;
+                                            Research->radius = 150;
                                             Research->power_restore_time = 15;
                                             Research->power_strength = 18;
 
