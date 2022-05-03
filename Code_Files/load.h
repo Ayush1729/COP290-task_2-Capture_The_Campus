@@ -70,10 +70,10 @@ bool loadMedia()
     gTexture4 =  loadTexture("Graphics/Title.png");
     gTexture5 =  loadTexture("Graphics/iitd-campus.png");
     gTexture_blue_fire =  loadTexture("Graphics/Blue_Fire.png");
-    gTexture_blue_wall =  loadTexture("Graphics/Blue_Wall.jpeg");
+    gTexture_blue_wall =  loadTexture("Graphics/Blue_Wall.png");
     gTexture_red_wall =  loadTexture("Graphics/Red_Wall.jpg");
     gTexture_red_fire =  loadTexture("Graphics/Red_Fire.png");
-    gTexture_emp =  loadTexture("Graphics/Purple_Orb.png");
+    gTexture_emp =  loadTexture("Graphics/zz.png");
     gTexture_shield =  loadTexture("Graphics/Green_Orb.png");
     gTexture_blue_acid =  loadTexture("Graphics/Blue_Acid.png");
     gTexture_red_acid =  loadTexture("Graphics/Red_Acid.png");
@@ -81,6 +81,7 @@ bool loadMedia()
     gSelect_image = loadTexture("Graphics/select.png");
     gTexture_instructions_text = loadTexture("Graphics/Instructions_text.png" );
     gTexture_powers_text = loadTexture("Graphics/Powers_text.png");
+    gTexture_cannon = loadTexture("Graphics/cannon_ball.png");
 
 
     gTexture_fire_button =  loadTexture("Graphics/fire_button.jpeg");
@@ -113,9 +114,10 @@ bool loadMedia()
     SDL_SetTextureBlendMode( gTexture_blue_fire, SDL_BLENDMODE_BLEND );
     SDL_SetTextureAlphaMod( gTexture_blue_fire, 128 );
 
+/*
     SDL_SetTextureBlendMode( gTexture_emp, SDL_BLENDMODE_BLEND );
     SDL_SetTextureAlphaMod( gTexture_emp, 128 );
-
+*/
 
 
 
