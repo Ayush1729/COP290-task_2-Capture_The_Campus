@@ -31,9 +31,7 @@ class CannonBall {
 		}
 
 		void update(){
-			std::cout<<"in update"<<endl;
 			if (this->alive) {
-				std::cout<<"in update alive"<<endl;
 				if (my_target_packet->alive){
 					target_x = my_target_packet->x;
 					target_y = my_target_packet->y;
@@ -55,10 +53,8 @@ class CannonBall {
 
 		void render(float curr_screen_x, float curr_screen_y){
 			if (this->alive) {
-				std::cout<<"in render"<<endl;
 				SDL_Rect fillRect = { x-10-curr_screen_x, y-10-curr_screen_y, 20*SCALING_FACTOR_X, 20*SCALING_FACTOR_Y  };
-	        	SDL_SetRenderDrawColor( gRenderer, 100, 100, 100, 150 );
-	        	SDL_RenderFillRect( gRenderer, &fillRect );
+	        	SDL_RenderCopy( gRenderer, gTexture_cannon, NULL, &fillRect );
         	}
 	    }
 
