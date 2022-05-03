@@ -18,11 +18,11 @@ using namespace std;
 #include "PathPoint.h"
 #include "SoldierPacket.h"
 #include "CannonBall.h"
-#include "States/DoublyLinkedList.h"
+#include "Game_States/DoublyLinkedList.h"
 
 
-#include "States/Start_State.h"
-#include "States/Options_State.h"
-#include "States/Powers_State.h"
-#include "States/Play_State.h"
-#include "States/GameOver_State.h"
+#include "Game_States/Start_State.h"
+#include "Game_States/Options_State.h"
+#include "Game_States/Powers_State.h"
+#include "Game_States/Play_State.h"
+#include "Game_States/GameOver_State.h"
