@@ -37,6 +37,7 @@ SDL_Texture* gTexture_emp = NULL;
 SDL_Texture* gTexture_shield = NULL;
 SDL_Texture* gSelect_image = NULL;
 SDL_Texture* gTexture_freeze = NULL;
+SDL_Texture* gTexture_cannon = NULL;
 
 
 SDL_Texture* gTexture_fire_button = NULL;
