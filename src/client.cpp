@@ -251,27 +251,29 @@ int main( int argc, char* args[] )
             Powers_State* powers_state = new Powers_State();
             GameOver_State* gameover_state = new GameOver_State();
 
+            my_loyalty = "Red";
+
             SDLNet_Init();
             IPaddress ip;
             SDLNet_ResolveHost(&ip,"127.0.0.1",1234);
 
             TCPsocket client=SDLNet_TCP_Open(&ip);
 
-            int text[9];
+            int text2[9];
             int* check;
             // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, isquit}
-            int text2[9] = {0,0,0,0,0,0,0,0,0};
-            check = text2;
+            int text[9] = {0,0,0,0,0,0,0,0,0};
+            check = text;
 
-            int state;
+            //int state;
 
             while (!quit){
                 temp_time = SDL_GetTicks();
                 dt = temp_time - previous_time;
 
                 SDLNet_TCP_Send(client,check,sizeof(int)*9);
-                SDLNet_TCP_Recv(client,text,9*sizeof(int));
-                std::cout <<text[0]<<", "<<text[1]<<", "<<text[2]<<", "<<text[3]<<", "<<text[4]<<", "<<text[5]<<", "<<text[6]<<", "<<text[7]<<", "<<text[8]<<endl;
+                SDLNet_TCP_Recv(client,text2,9*sizeof(int));
+                std::cout <<text2[0]<<", "<<text2[1]<<", "<<text2[2]<<", "<<text2[3]<<", "<<text2[4]<<", "<<text2[5]<<", "<<text2[6]<<", "<<text2[7]<<", "<<text2[8]<<endl;
 
 
                 if (dt>1000/60) {
@@ -281,23 +283,20 @@ int main( int argc, char* args[] )
                     SCALING_FACTOR_Y = h/SCREEN_HEIGHT;
                     
                     if (gState == "Start"){
-                        state = 0;
-                        start_state->update(dt/1000);
+                        start_state->update(dt/1000, text2[8]);
                     }else if (gState == "Options"){
-                        state = 1;
-                        options_state->update(dt/1000);
+                        options_state->update(dt/1000, text2[8]);
                     }else if (gState == "Powers"){
-                        state = 2;
-                        powers_state->update(dt/1000);
+                        powers_state->update(dt/1000, text2[8]);
                     }else if (gState == "Play"){
-                        state = 3;
                         play_state->render();
-                        play_state->update(dt/1000);
-                        int arr[9] = {state, play_state->clicked, play_state->isleft, play_state->isright, play_state->click_x, play_state->click_y, play_state->Current_view_x, play_state->Current_view_y, play_state->isquit};
+                        play_state->update(dt/1000, text2);
+                        int arr[9] = {1, play_state->clicked, play_state->isleft, play_state->isright, play_state->click_x, play_state->click_y, play_state->Current_view_x, play_state->Current_view_y, play_state->isquit};
                         check = arr;
                     }else if (gState == "GameOver"){
-                        state = 4;
-                        gameover_state->update(dt/1000);
+                        int arr[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+                        check = arr;
+                        gameover_state->update(dt/1000, text2[8]);
                     }
                     else{
                         quit = true;
@@ -305,7 +304,11 @@ int main( int argc, char* args[] )
                     previous_time = temp_time;
                     dt = 0;
                 }                
-	        }
+            }
+
+            int arr[9] = {0, 0, 0, 0, 0, 0, 0, 0, 1};
+            check = arr;
+
 
             SDLNet_TCP_Send(client,check,sizeof(int)*9);
             SDLNet_TCP_Recv(client,text2,9*sizeof(int));
