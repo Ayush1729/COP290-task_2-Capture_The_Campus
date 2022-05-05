@@ -49,7 +49,7 @@ public:
 		if (loyalty == incoming_loyalty){
 			soldiers = incoming_soldiers + soldiers;
 		}else{
-			if (!((this->loyalty != shield_building->loyalty) and (shield_building->power_stay_time>0) and ((pow(this->x - shield_building->power_circle_centre_x,2) + pow(this->y - shield_building->power_circle_centre_y,2)) < pow(shield_building->radius,2)))){
+			if (!((this->loyalty == shield_building->loyalty) and (shield_building->power_stay_time>0) and ((pow(this->x - shield_building->power_circle_centre_x,2) + pow(this->y - shield_building->power_circle_centre_y,2)) < pow(shield_building->radius,2)))){
 				if (incoming_soldiers>soldiers){
 					soldiers = incoming_soldiers - soldiers;
 					loyalty = incoming_loyalty;
