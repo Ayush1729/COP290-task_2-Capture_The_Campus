@@ -251,6 +251,8 @@ int main( int argc, char* args[] )
             Powers_State* powers_state = new Powers_State();
             GameOver_State* gameover_state = new GameOver_State();
 
+            my_loyalty = "Blue";
+
             SDLNet_Init();
             IPaddress ip;
             SDLNet_ResolveHost(&ip,NULL,1234);
@@ -264,7 +266,7 @@ int main( int argc, char* args[] )
             check = text;
 
             int text2[9];
-            int state;
+            //int state;
 
             while(1){
                     client=SDLNet_TCP_Accept(server);
@@ -290,23 +292,20 @@ int main( int argc, char* args[] )
                     SCALING_FACTOR_Y = h/SCREEN_HEIGHT;
                     
                     if (gState == "Start"){
-                        state = 0;
-                        start_state->update(dt/1000);
+                        start_state->update(dt/1000, text2[8]);
                     }else if (gState == "Options"){
-                        state = 1;
-                        options_state->update(dt/1000);
+                        options_state->update(dt/1000, text2[8]);
                     }else if (gState == "Powers"){
-                        state = 2;
-                        powers_state->update(dt/1000);
+                        powers_state->update(dt/1000, text2[8]);
                     }else if (gState == "Play"){
-                        state = 3;
                         play_state->render();
-                        play_state->update(dt/1000);
-                        int arr[9] = {state, play_state->clicked, play_state->isleft, play_state->isright, play_state->click_x, play_state->click_y, play_state->Current_view_x, play_state->Current_view_y, play_state->isquit};
+                        play_state->update(dt/1000, text2);
+                        int arr[9] = {1, play_state->clicked, play_state->isleft, play_state->isright, play_state->click_x, play_state->click_y, play_state->Current_view_x, play_state->Current_view_y, play_state->isquit};
                         check = arr;
                     }else if (gState == "GameOver"){
-                        state = 4;
-                        gameover_state->update(dt/1000);
+                        int arr[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+                        check = arr;
+                        gameover_state->update(dt/1000, text2[8]);
                     }
                     else{
                         quit = true;
@@ -315,6 +314,9 @@ int main( int argc, char* args[] )
                     dt = 0;
                 }                
 	        }
+
+            int arr[9] = {0, 0, 0, 0, 0, 0, 0, 0, 1};
+            check = arr;
 
             SDLNet_TCP_Send(client,check,sizeof(int)*9);
             SDLNet_TCP_Recv(client,text2,9*sizeof(int));
