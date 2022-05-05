@@ -8,6 +8,7 @@ bool error_occ = false;
 bool quit = false;
 
 string gState = "Start";
+string my_loyalty;
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
