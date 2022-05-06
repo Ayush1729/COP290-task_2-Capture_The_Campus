@@ -3,21 +3,15 @@ class Play_State{
 
 	public:
 
-        /////////////////////// Why the hell is this not working???????????????????????????????????????????????
 
 		Play_State(){
 			//constructor; not necessary
-            /*if (my_loyalty == "Red"){ this->Current_view_x = 1700;}
-            else {this->Current_view_x = 0;}
-            for (int i = 0; i<100; i++){std::cout<<my_loyalty<<endl;}*/
-
-            //std::cout<<my_loyalty<<" :in constructor"<<endl;
 		}
 
         DoublyLinkedList* all_soldiers = new DoublyLinkedList();
 
 
-        ////////////////   two of these ////////////////////////
+
         bool power_is_selected_red = false;
         string selected_power_red = "None";
 
@@ -48,10 +42,9 @@ class Play_State{
         Planet* OAT = new Planet(823, 861, "OAT", "Road Block");
     
 
-        ////////////////   two of these ////////////////////////
+
         Planet* selected_origin_red = NULL;
         Planet* selected_destination_red = NULL;
-
 
         Planet* selected_origin_blue = NULL;
         Planet* selected_destination_blue = NULL;
@@ -61,7 +54,6 @@ class Play_State{
         CannonBall* cannon2 = new CannonBall(Library);
 
 
-        
         float Current_view_x = (my_loyalty == "Red")?1700:0;
         float Current_view_y = 0;
 
@@ -77,11 +69,8 @@ class Play_State{
 
 
         void create_packet(int outgoing, Planet* selected_origin, Planet* selected_destination){
-            //std::cout<<"create_packet"<<std::endl;
             SoldierPacket* temp = new SoldierPacket(outgoing, selected_destination, selected_origin);
-            //std::cout<<"create_packet_mid"<<std::endl;
             all_soldiers->insert(temp);
-            //std::cout<<"create_packet_end"<<std::endl;
             temp = NULL;
         }
 
@@ -145,7 +134,7 @@ class Play_State{
                 else if (selected_origin_blue->identity ==  "Playground") {select_rect = { 1187 - Current_view_x, 655 - Current_view_y, 294, 191 };}
                 else if (selected_origin_blue->identity ==  "Main Building") {select_rect = { 1477 - Current_view_x, 221 - Current_view_y, 388, 174 };}
 
-                SDL_SetTextureColorMod( gSelect_image, 90, 0, 0 ); // for blue
+                SDL_SetTextureColorMod( gSelect_image, 0, 0, 90 ); // for blue
                 SDL_RenderCopy( gRenderer, gSelect_image , NULL, &select_rect );
 
                 //Render text
@@ -181,7 +170,7 @@ class Play_State{
                 else if (selected_origin_red->identity ==  "Playground") {select_rect = { 1187 - Current_view_x, 655 - Current_view_y, 294, 191 };}
                 else if (selected_origin_red->identity ==  "Main Building") {select_rect = { 1477 - Current_view_x, 221 - Current_view_y, 388, 174 };}
 
-                SDL_SetTextureColorMod( gSelect_image, 0, 0, 90 ); // for red
+                SDL_SetTextureColorMod( gSelect_image, 90, 0, 0 ); // for red
                 SDL_RenderCopy( gRenderer, gSelect_image , NULL, &select_rect );
 
                 //Render text
@@ -213,7 +202,7 @@ class Play_State{
                 
 
                 if (Apartments_boys->loyalty == "Blue"){
-                    //SDL_SetTextureColorMod( gTexture_blue_fire, 0, 0, 180 );
+                    SDL_SetTextureColorMod( gTexture_blue_fire, 0, 0, 180 );
                     SDL_RenderCopy( gRenderer, gTexture_blue_fire , NULL, &power_pos );
                 }
                 else if (Apartments_boys->loyalty == "Red"){
@@ -288,12 +277,7 @@ class Play_State{
 
 
             if (LHC->power_stay_time>0){
-
-                /*if (LHC->loyalty == "Blue"){
-                    // do nothing here for the blue player, but show for the red player
-                    //SDL_RenderCopy( gRenderer, gTexture_freeze, NULL, NULL );
-                }
-                else */if (LHC->loyalty != my_loyalty){
+                if (LHC->loyalty != my_loyalty){
                     // do nothing here for the other player, but show for the current player
                     SDL_RenderCopy( gRenderer, gTexture_freeze, NULL, NULL );
                 } 
@@ -1039,7 +1023,7 @@ class Play_State{
                                                 Research->power_stay_time = 1;
                                                 Research->radius = 150;
                                                 Research->power_restore_time = 15;
-                                                Research->power_strength = 18;
+                                                Research->power_strength = 15;
 
                                             }else{
                                                 // display error, click on an enemy building
