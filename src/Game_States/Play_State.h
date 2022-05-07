@@ -57,7 +57,7 @@ class Play_State{
         float Current_view_x = (my_loyalty == "Red")?1700:0;
         float Current_view_y = 0;
 
-        float Current_view_speed = 10;
+        float Current_view_speed = 15;
         float CAMPUS_WIDTH = 3017;
         float CAMPUS_HEIGHT = 1187;
         int click_x = 0;
@@ -82,10 +82,10 @@ class Play_State{
             SDL_RenderClear( gRenderer );
 
             SDL_Rect campus_view_rect;
-            campus_view_rect.w = SCREEN_WIDTH*(SCALING_FACTOR_X);
-            campus_view_rect.h = SCREEN_HEIGHT*(SCALING_FACTOR_Y);
-            campus_view_rect.x = Current_view_x*(SCALING_FACTOR_X);
-            campus_view_rect.y = Current_view_y*(SCALING_FACTOR_Y);
+            campus_view_rect.w = SCREEN_WIDTH;
+            campus_view_rect.h = SCREEN_HEIGHT;
+            campus_view_rect.x = Current_view_x;
+            campus_view_rect.y = Current_view_y;
 
             SDL_RenderCopy( gRenderer, gTexture5, &campus_view_rect, NULL );
 
@@ -116,23 +116,23 @@ class Play_State{
             SDL_Rect select_rect;
             if (selected_origin_blue != NULL) {
              
-                if (selected_origin_blue->identity ==  "LHC") {select_rect = { 1998 - Current_view_x, 601 - Current_view_y, 242, 178 };}
-                else if (selected_origin_blue->identity ==  "Library") {select_rect = { 1617 - Current_view_x, 438 - Current_view_y, 196, 136 };}
-                else if (selected_origin_blue->identity ==  "Vindhyachal") {select_rect = { 725 - Current_view_x, 191 - Current_view_y, 166, 117 };}
-                else if (selected_origin_blue->identity ==  "Himadri") {select_rect = { 2219 - Current_view_x, 166 - Current_view_y, 176, 122 };}
-                else if (selected_origin_blue->identity ==  "OAT") {select_rect = { 753 - Current_view_x, 797 - Current_view_y, 134, 127 };}
-                else if (selected_origin_blue->identity ==  "Jwala") {select_rect = { 356 - Current_view_x, 159 - Current_view_y, 108, 137 };}
-                else if (selected_origin_blue->identity ==  "Kara") {select_rect = { 345 - Current_view_x, 497 - Current_view_y, 103, 132 };}
-                else if (selected_origin_blue->identity ==  "Apartments boys") {select_rect = { 165 - Current_view_x, 746 - Current_view_y, 112, 124 };}
-                else if (selected_origin_blue->identity ==  "Masala Mix") {select_rect = { 805 - Current_view_x, 461 - Current_view_y, 141, 116 };}
-                else if (selected_origin_blue->identity ==  "Hospital") {select_rect = { 1031 - Current_view_x, 443 - Current_view_y, 166, 139 };}
-                else if (selected_origin_blue->identity ==  "Apartments girls") {select_rect = { 2561 - Current_view_x, 702 - Current_view_y, 142, 156 };}
-                else if (selected_origin_blue->identity ==  "Kendriya Vidyalaya") {select_rect = { 2198 - Current_view_x, 418 - Current_view_y, 178, 134 };}
-                else if (selected_origin_blue->identity ==  "IITD Market") {select_rect = { 2603 - Current_view_x, 434 - Current_view_y, 115, 112 };}
-                else if (selected_origin_blue->identity ==  "Amaltas") {select_rect = { 2596 - Current_view_x, 239 - Current_view_y, 141, 120 };}
-                else if (selected_origin_blue->identity ==  "Research Park") {select_rect = { 1399 - Current_view_x, 917 - Current_view_y, 291, 139 };}
-                else if (selected_origin_blue->identity ==  "Playground") {select_rect = { 1187 - Current_view_x, 655 - Current_view_y, 294, 191 };}
-                else if (selected_origin_blue->identity ==  "Main Building") {select_rect = { 1477 - Current_view_x, 221 - Current_view_y, 388, 174 };}
+                if (selected_origin_blue->identity ==  "LHC") {select_rect = { (1998 - Current_view_x)*SCALING_FACTOR_X, (601 - Current_view_y)*SCALING_FACTOR_Y, (242)*SCALING_FACTOR_X, (178)*SCALING_FACTOR_Y };}
+                else if (selected_origin_blue->identity ==  "Library") {select_rect = { (1617 - Current_view_x)*SCALING_FACTOR_X, (438 - Current_view_y)*SCALING_FACTOR_Y, (196)*SCALING_FACTOR_X, (136)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Vindhyachal") {select_rect = { (725 - Current_view_x)*SCALING_FACTOR_X, (191 - Current_view_y)*SCALING_FACTOR_Y, (166)*SCALING_FACTOR_X, (117)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Himadri") {select_rect = { (2219 - Current_view_x)*SCALING_FACTOR_X, (166 - Current_view_y)*SCALING_FACTOR_Y, (176)*SCALING_FACTOR_X, (122)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "OAT") {select_rect = { (753 - Current_view_x)*SCALING_FACTOR_X, (797 - Current_view_y)*SCALING_FACTOR_Y, (134)*SCALING_FACTOR_X, (127)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Jwala") {select_rect = { (356 - Current_view_x)*SCALING_FACTOR_X, (159 - Current_view_y)*SCALING_FACTOR_Y, (108)*SCALING_FACTOR_X, (137)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Kara") {select_rect = { (345 - Current_view_x)*SCALING_FACTOR_X, (497 - Current_view_y)*SCALING_FACTOR_Y, (103)*SCALING_FACTOR_X, (132)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Apartments boys") {select_rect = { (165 - Current_view_x)*SCALING_FACTOR_X, (746 - Current_view_y)*SCALING_FACTOR_Y, (112)*SCALING_FACTOR_X, (124)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Masala Mix") {select_rect = { (805 - Current_view_x)*SCALING_FACTOR_X, (461 - Current_view_y)*SCALING_FACTOR_Y, (141)*SCALING_FACTOR_X, (116)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Hospital") {select_rect = { (1031 - Current_view_x)*SCALING_FACTOR_X, (443 - Current_view_y)*SCALING_FACTOR_Y, (166)*SCALING_FACTOR_X, (139)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Apartments girls") {select_rect = { (2561 - Current_view_x)*SCALING_FACTOR_X, (702 - Current_view_y)*SCALING_FACTOR_Y, (142)*SCALING_FACTOR_X, (156)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Kendriya Vidyalaya") {select_rect = { (2198 - Current_view_x)*SCALING_FACTOR_X, (418 - Current_view_y)*SCALING_FACTOR_Y, (178)*SCALING_FACTOR_X, (134)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "IITD Market") {select_rect = { (2603 - Current_view_x)*SCALING_FACTOR_X, (434 - Current_view_y)*SCALING_FACTOR_Y, (115)*SCALING_FACTOR_X, (112)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Amaltas") {select_rect = { (2596 - Current_view_x)*SCALING_FACTOR_X, (239 - Current_view_y)*SCALING_FACTOR_Y, (141)*SCALING_FACTOR_X, (120)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Research Park") {select_rect = { (1399 - Current_view_x)*SCALING_FACTOR_X, (917 - Current_view_y)*SCALING_FACTOR_Y, (291)*SCALING_FACTOR_X, (139)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Playground") {select_rect = { (1187 - Current_view_x)*SCALING_FACTOR_X, (655 - Current_view_y)*SCALING_FACTOR_Y, (294)*SCALING_FACTOR_X, (191)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_blue->identity ==  "Main Building") {select_rect = { (1477 - Current_view_x)*SCALING_FACTOR_X, (221 - Current_view_y)*SCALING_FACTOR_Y, (388)*SCALING_FACTOR_X, (174)*SCALING_FACTOR_Y  };}
 
                 SDL_SetTextureColorMod( gSelect_image, 0, 0, 90 ); // for blue
                 SDL_RenderCopy( gRenderer, gSelect_image , NULL, &select_rect );
@@ -144,7 +144,7 @@ class Play_State{
                     error_occ = true;
                 }
             
-                SDL_Rect identity_pos = { select_rect.x + 10, select_rect.y + 10, (select_rect.w - 20)*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
+                SDL_Rect identity_pos = { select_rect.x + 10*SCALING_FACTOR_X, select_rect.y + 10*SCALING_FACTOR_Y, select_rect.w - 20*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
                 // Text on screen
                 SDL_RenderCopy( gRenderer, gTextTexture, NULL, &identity_pos );
 
@@ -152,23 +152,23 @@ class Play_State{
 
             if (selected_origin_red != NULL) {
              
-                if (selected_origin_red->identity ==  "LHC") {select_rect = { 1998 - Current_view_x, 601 - Current_view_y, 242, 178 };}
-                else if (selected_origin_red->identity ==  "Library") {select_rect = { 1617 - Current_view_x, 438 - Current_view_y, 196, 136 };}
-                else if (selected_origin_red->identity ==  "Vindhyachal") {select_rect = { 725 - Current_view_x, 191 - Current_view_y, 166, 117 };}
-                else if (selected_origin_red->identity ==  "Himadri") {select_rect = { 2219 - Current_view_x, 166 - Current_view_y, 176, 122 };}
-                else if (selected_origin_red->identity ==  "OAT") {select_rect = { 753 - Current_view_x, 797 - Current_view_y, 134, 127 };}
-                else if (selected_origin_red->identity ==  "Jwala") {select_rect = { 356 - Current_view_x, 159 - Current_view_y, 108, 137 };}
-                else if (selected_origin_red->identity ==  "Kara") {select_rect = { 345 - Current_view_x, 497 - Current_view_y, 103, 132 };}
-                else if (selected_origin_red->identity ==  "Apartments boys") {select_rect = { 165 - Current_view_x, 746 - Current_view_y, 112, 124 };}
-                else if (selected_origin_red->identity ==  "Masala Mix") {select_rect = { 805 - Current_view_x, 461 - Current_view_y, 141, 116 };}
-                else if (selected_origin_red->identity ==  "Hospital") {select_rect = { 1031 - Current_view_x, 443 - Current_view_y, 166, 139 };}
-                else if (selected_origin_red->identity ==  "Apartments girls") {select_rect = { 2561 - Current_view_x, 702 - Current_view_y, 142, 156 };}
-                else if (selected_origin_red->identity ==  "Kendriya Vidyalaya") {select_rect = { 2198 - Current_view_x, 418 - Current_view_y, 178, 134 };}
-                else if (selected_origin_red->identity ==  "IITD Market") {select_rect = { 2603 - Current_view_x, 434 - Current_view_y, 115, 112 };}
-                else if (selected_origin_red->identity ==  "Amaltas") {select_rect = { 2596 - Current_view_x, 239 - Current_view_y, 141, 120 };}
-                else if (selected_origin_red->identity ==  "Research Park") {select_rect = { 1399 - Current_view_x, 917 - Current_view_y, 291, 139 };}
-                else if (selected_origin_red->identity ==  "Playground") {select_rect = { 1187 - Current_view_x, 655 - Current_view_y, 294, 191 };}
-                else if (selected_origin_red->identity ==  "Main Building") {select_rect = { 1477 - Current_view_x, 221 - Current_view_y, 388, 174 };}
+                if (selected_origin_red->identity ==  "LHC") {select_rect = { (1998 - Current_view_x)*SCALING_FACTOR_X, (601 - Current_view_y)*SCALING_FACTOR_Y, (242)*SCALING_FACTOR_X, (178)*SCALING_FACTOR_Y };}
+                else if (selected_origin_red->identity ==  "Library") {select_rect = { (1617 - Current_view_x)*SCALING_FACTOR_X, (438 - Current_view_y)*SCALING_FACTOR_Y, (196)*SCALING_FACTOR_X, (136)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Vindhyachal") {select_rect = { (725 - Current_view_x)*SCALING_FACTOR_X, (191 - Current_view_y)*SCALING_FACTOR_Y, (166)*SCALING_FACTOR_X, (117)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Himadri") {select_rect = { (2219 - Current_view_x)*SCALING_FACTOR_X, (166 - Current_view_y)*SCALING_FACTOR_Y, (176)*SCALING_FACTOR_X, (122)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "OAT") {select_rect = { (753 - Current_view_x)*SCALING_FACTOR_X, (797 - Current_view_y)*SCALING_FACTOR_Y, (134)*SCALING_FACTOR_X, (127)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Jwala") {select_rect = { (356 - Current_view_x)*SCALING_FACTOR_X, (159 - Current_view_y)*SCALING_FACTOR_Y, (108)*SCALING_FACTOR_X, (137)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Kara") {select_rect = { (345 - Current_view_x)*SCALING_FACTOR_X, (497 - Current_view_y)*SCALING_FACTOR_Y, (103)*SCALING_FACTOR_X, (132)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Apartments boys") {select_rect = { (165 - Current_view_x)*SCALING_FACTOR_X, (746 - Current_view_y)*SCALING_FACTOR_Y, (112)*SCALING_FACTOR_X, (124)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Masala Mix") {select_rect = { (805 - Current_view_x)*SCALING_FACTOR_X, (461 - Current_view_y)*SCALING_FACTOR_Y, (141)*SCALING_FACTOR_X, (116)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Hospital") {select_rect = { (1031 - Current_view_x)*SCALING_FACTOR_X, (443 - Current_view_y)*SCALING_FACTOR_Y, (166)*SCALING_FACTOR_X, (139)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Apartments girls") {select_rect = { (2561 - Current_view_x)*SCALING_FACTOR_X, (702 - Current_view_y)*SCALING_FACTOR_Y, (142)*SCALING_FACTOR_X, (156)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Kendriya Vidyalaya") {select_rect = { (2198 - Current_view_x)*SCALING_FACTOR_X, (418 - Current_view_y)*SCALING_FACTOR_Y, (178)*SCALING_FACTOR_X, (134)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "IITD Market") {select_rect = { (2603 - Current_view_x)*SCALING_FACTOR_X, (434 - Current_view_y)*SCALING_FACTOR_Y, (115)*SCALING_FACTOR_X, (112)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Amaltas") {select_rect = { (2596 - Current_view_x)*SCALING_FACTOR_X, (239 - Current_view_y)*SCALING_FACTOR_Y, (141)*SCALING_FACTOR_X, (120)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Research Park") {select_rect = { (1399 - Current_view_x)*SCALING_FACTOR_X, (917 - Current_view_y)*SCALING_FACTOR_Y, (291)*SCALING_FACTOR_X, (139)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Playground") {select_rect = { (1187 - Current_view_x)*SCALING_FACTOR_X, (655 - Current_view_y)*SCALING_FACTOR_Y, (294)*SCALING_FACTOR_X, (191)*SCALING_FACTOR_Y  };}
+                else if (selected_origin_red->identity ==  "Main Building") {select_rect = { (1477 - Current_view_x)*SCALING_FACTOR_X, (221 - Current_view_y)*SCALING_FACTOR_Y, (388)*SCALING_FACTOR_X, (174)*SCALING_FACTOR_Y  };}
 
                 SDL_SetTextureColorMod( gSelect_image, 90, 0, 0 ); // for red
                 SDL_RenderCopy( gRenderer, gSelect_image , NULL, &select_rect );
@@ -180,7 +180,7 @@ class Play_State{
                     error_occ = true;
                 }
             
-                SDL_Rect identity_pos = { select_rect.x + 10, select_rect.y + 10, (select_rect.w - 20)*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
+                SDL_Rect identity_pos = { select_rect.x + 10*SCALING_FACTOR_X, select_rect.y + 10*SCALING_FACTOR_Y, select_rect.w - 20*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
                 // Text on screen
                 SDL_RenderCopy( gRenderer, gTextTexture, NULL, &identity_pos );
 
@@ -265,11 +265,11 @@ class Play_State{
                 power_pos.y = (OAT->power_circle_centre_y - (OAT->radius/2) - Current_view_y)*SCALING_FACTOR_Y;
 
                 if (OAT->loyalty == "Blue"){
-                    SDL_SetTextureColorMod( gTexture_blue_wall, 0, 0, 180 );
+                    //SDL_SetTextureColorMod( gTexture_blue_wall, 0, 0, 180 );
                     SDL_RenderCopy( gRenderer, gTexture_blue_wall , NULL, &power_pos );
                 }
                 else if (OAT->loyalty == "Red"){
-                    SDL_SetTextureColorMod( gTexture_blue_wall, 180, 0, 0 );
+                    //SDL_SetTextureColorMod( gTexture_blue_wall, 180, 0, 0 );
                     SDL_RenderCopy( gRenderer, gTexture_blue_wall, NULL, &power_pos );
                 } 
             }
@@ -409,10 +409,10 @@ class Play_State{
                 }
 
                 SDL_Rect titl_pos;
-                titl_pos.w = (0.6*SCREEN_WIDTH)*(SCALING_FACTOR_X);
-                titl_pos.h = (0.4*SCREEN_HEIGHT)*(SCALING_FACTOR_Y);
-                titl_pos.x = (0.2*SCREEN_WIDTH)*(SCALING_FACTOR_X);
-                titl_pos.y = (0.3*SCREEN_HEIGHT)*(SCALING_FACTOR_Y);
+                titl_pos.w = (0.6*SCREEN_WIDTH);
+                titl_pos.h = (0.4*SCREEN_HEIGHT);
+                titl_pos.x = (0.2*SCREEN_WIDTH);
+                titl_pos.y = (0.3*SCREEN_HEIGHT);
                 // Text on screen
                 SDL_RenderCopy( gRenderer, gTextTexture, NULL, &titl_pos );
             
@@ -435,25 +435,10 @@ class Play_State{
 
 
 
-
-
-
-
-
-
-
-
-
-
-
 		void update(float dt, int other_player[]){
 
-            std::cout<<my_loyalty<<" :in update"<<endl;
 
             // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, isquit}
-
-
-            //std::cout<<"update"<<std::endl;
             //["None", "Cannon", "EMP", "Fire Circle", "Acid Circle", "Road Block", "Fast Spawn", "Fast Move", "Freeze", "Shield"]
 
             if ((!finished) and (other_player[0]==1)){
@@ -548,7 +533,7 @@ class Play_State{
                                     // the six power buttons
 
                                     // relative to campus click position print
-                                    std::cout<<"x = "<<click_x + Current_view_x<<"          y = "<<click_y + Current_view_y<<std::endl;
+                                    //std::cout<<"x = "<<click_x + Current_view_x<<"          y = "<<click_y + Current_view_y<<std::endl;
 
                                     if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         // selected powerup 1 Fire Circle
@@ -1175,7 +1160,7 @@ class Play_State{
                                     // the six power buttons
 
                                     // relative to campus click position print
-                                    std::cout<<"x = "<<click_x + Current_view_x<<"          y = "<<click_y + Current_view_y<<std::endl;
+                                    //std::cout<<"x = "<<click_x + Current_view_x<<"          y = "<<click_y + Current_view_y<<std::endl;
 
                                     if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         // selected powerup 1 Fire Circle
@@ -1418,7 +1403,6 @@ class Play_State{
                                     isleft = 0;
                                     if ((selected_origin_red!=NULL) and (!power_is_selected_red)){
 
-                                        // how to see which is selected here? Definitely have to take different sizes for diffrent buildingd based on their image sizes.
                                         // Rectangle selection instead of ellipse here. Ellipse to be used for power circles. 
 
                                         // selecting destination
@@ -1464,7 +1448,7 @@ class Play_State{
 
 
 
-                    // settings for other player (Red here)
+                    // settings for other player (Blue here)
 
                     // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, isquit}
 
