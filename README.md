@@ -2,8 +2,9 @@
 ## COP290 Task-2
 
 ### About the game
-This is a 2-player game that.....
-To know more about the game, refer to Game_Info.pdf file.
+This is a 2-player game written entirely in C++ programming language with the help of SDL and its various extension libraries. Simple DirectMedia Layer(SDL) is a cross-platform development library designed to provide low-level access to audio, keyboard, mouse, joystick, and graphics hardware.  
+Capture The Campus is a strategy type game where you will test your situational awareness and decision-making skills to conquer your opponent's base.
+To know more about the game, refer to *Game_Info.pdf* file.
 
 ### Setting up SDL environment
 Before running the game, first set up the required SDL environment and install the below mentioned libraries and packages.  
