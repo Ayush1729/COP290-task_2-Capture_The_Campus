@@ -28,6 +28,8 @@ class CannonBall {
 			target_x = my_target_packet->x;
 			target_y = my_target_packet->y;
 
+			Mix_PlayChannel( -1, gCannon_sound, 0 );
+
 		}
 
 		void update(){
