@@ -23,7 +23,7 @@ public:
 		x = x_cor;
 		y = y_cor;
 		identity = name;
-		this->power = planet_power; // ["None", "Cannon": done, "EMP": change the way of checking impact, "Fire Circle": done, "Acid Circle": done, "Road Block": done, "Fast Spawn": done, "Fast Move": done, "Freeze": done, "Shield": change the way of checking impact (same as EMP)]
+		this->power = planet_power; // ["None", "Cannon", "EMP", "Fire Circle", "Acid Circle", "Road Block", "Fast Spawn", "Fast Move", "Freeze", "Shield"]
 
 		if (this->power == "Cannon"){
 			this->radius = 200;
@@ -53,7 +53,6 @@ public:
 				if (incoming_soldiers>soldiers){
 					soldiers = incoming_soldiers - soldiers;
 					loyalty = incoming_loyalty;
-					//std:cout<<"collided, planet "<< identity<<" : loyalty = "<<loyalty<<std::endl;
 
 					power_stay_time = -1;
 					power_restore_time = 15;
@@ -101,12 +100,12 @@ public:
 	}
 
 	void render(float curr_screen_x, float curr_screen_y){
-        SDL_Rect fillRect = { x-20-curr_screen_x, y-20-curr_screen_y, 40*SCALING_FACTOR_X, 40*SCALING_FACTOR_Y  };
+        SDL_Rect fillRect = { (x-20-curr_screen_x)*SCALING_FACTOR_X, (y-20-curr_screen_y)*SCALING_FACTOR_Y, 40*SCALING_FACTOR_X, 40*SCALING_FACTOR_Y  };
         if (loyalty=="Red"){
         	SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 150 );
         	SDL_RenderFillRect( gRenderer, &fillRect );
         	for (int i = 0;i<soldiers; i++){
-        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%80)-40), y-curr_screen_y-((rand()%80)-40), 3, 3 };
+        		SDL_Rect particleRect = { (x-curr_screen_x-((rand()%80)-40))*SCALING_FACTOR_X, (y-curr_screen_y-((rand()%80)-40))*SCALING_FACTOR_Y, 3*SCALING_FACTOR_X, 3*SCALING_FACTOR_Y };
         		SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 255 );
         		SDL_RenderFillRect( gRenderer, &particleRect );
         	}
@@ -114,7 +113,7 @@ public:
         	SDL_SetRenderDrawColor( gRenderer, 0, 0, 255, 150 );
         	SDL_RenderFillRect( gRenderer, &fillRect );
         	for (int i = 0;i<soldiers; i++){
-        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%80)-40), y-curr_screen_y-((rand()%80)-40), 3, 3 };
+        		SDL_Rect particleRect = { (x-curr_screen_x-((rand()%80)-40))*SCALING_FACTOR_X, (y-curr_screen_y-((rand()%80)-40))*SCALING_FACTOR_Y, 3*SCALING_FACTOR_X, 3*SCALING_FACTOR_Y };
         		SDL_SetRenderDrawColor( gRenderer, 0, 0, 255, 255 );
         		SDL_RenderFillRect( gRenderer, &particleRect );
         	}
@@ -122,7 +121,7 @@ public:
         	SDL_SetRenderDrawColor( gRenderer, 50, 175, 50, 150 );
         	SDL_RenderFillRect( gRenderer, &fillRect );
         	for (int i = 0;i<soldiers; i++){
-        		SDL_Rect particleRect = { x-curr_screen_x-((rand()%80)-40), y-curr_screen_y-((rand()%80)-40), 3, 3 };
+        		SDL_Rect particleRect = { (x-curr_screen_x-((rand()%80)-40))*SCALING_FACTOR_X, (y-curr_screen_y-((rand()%80)-40))*SCALING_FACTOR_Y, 3*SCALING_FACTOR_X, 3*SCALING_FACTOR_Y };
         		SDL_SetRenderDrawColor( gRenderer, 50, 175, 50, 150 );
         		SDL_RenderFillRect( gRenderer, &particleRect );
         	}
@@ -137,7 +136,7 @@ public:
             error_occ = true;
         }
 
-        SDL_Rect titl_pos = { x-15-curr_screen_x, y-15-curr_screen_y, 30*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
+        SDL_Rect titl_pos = { (x-15-curr_screen_x)*SCALING_FACTOR_X, (y-15-curr_screen_y)*SCALING_FACTOR_Y, 30*SCALING_FACTOR_X, 30*SCALING_FACTOR_Y  };
         // Text on screen
         SDL_RenderCopy( gRenderer, gTextTexture, NULL, &titl_pos );
 
@@ -166,11 +165,6 @@ public:
 		}
 		return outgoing_soldiers;
 	}
-
-
-
-
-
 
 
 
