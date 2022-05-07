@@ -2,53 +2,54 @@
 ## COP290 Task-2
 
 ### About the game
-
+This is a 2-player game that.....
+To know more about the game, refer to Game_Info.pdf file.
 
 ### Setting up SDL environment
-Before cloning the git repo, first set up the required SDL environment and install the below mentioned libraries and packages
+Before running the game, first set up the required SDL environment and install the below mentioned libraries and packages.  
+NOTE: The below mentioned steps and commands are for linux based operating systems.
 
-- Installing the the development package of SDL 2
+- Installing the development package of SDL2
 ```
 sudo apt-get install libsdl2-dev
 
 ```
 
-SDL extension libraries allow you do things like load image files besides BMP, render TTF fonts, and play music.
+- Installing various SDL extension libraries
 
-- Insalling the development version of SDL_image
-```
-sudo apt-get install libsdl2-image-dev
-```
+   SDL extension libraries allow you do things like load image files besides BMP, render TTF fonts, play music, connect to other players and lot more. Install the below mentioned extension libraries to be able to play the game:
 
-- Installing the development version of SDL_ttf
-```
-sudo apt-get install libsdl2-ttf-dev
-```
+   - Insalling the development version of SDL_image library
+   ```
+   sudo apt-get install libsdl2-image-dev
+   ```
 
-- Installing the development version of SDL_mixer
-```
-sudo apt-get install libsdl2-mixer-dev
-```
+   - Installing the development version of SDL_ttf library
+   ```
+   sudo apt-get install libsdl2-ttf-dev
+   ```
 
-- Installing the development version of SDLNet for networking and socket programming
- ```
- sudo apt-get install libsdl2-net-dev
- ```
+   - Installing the development version of SDL_mixer library
+   ```
+   sudo apt-get install libsdl2-mixer-dev
+   ```
+
+   - Installing the development version of SDL_net library 
+    ```
+    sudo apt-get install libsdl2-net-dev
+    ```
 
 ### How to run the game
-The game files consists of two main cpp files. One of the server(Player 1) and one of the client(Player 2). 
+The game files consists of two main CPP files. One of the server (Player 1) and one of the client (Player 2). 
 
-To run the server side, go to the current directory of installed git repo and run
+To run the server side, go to the current directory of cloned git repo and run
 ```
 cd ./src
 make server
-```
-And then
-```
 ./server.out
 ```
 
-To connect the client side and start the multiplayer game, run
+To connect the client side and start the multiplayer game, run the below mentioned code snippet
 ```
 make client
 ./client.out
@@ -58,10 +59,12 @@ You should now see the game start screen on both server and client side. Enjoy t
 
 
 ### Authors
-Ayush Meena 2019EE10468
+Ayush Meena 2019EE10468   
 Garv Kumar 2019EE10477
 
 ### References
 - https://lazyfoo.net/tutorials/SDL/index.php
-- 
+- http://www.sdltutorials.com
+- https://www.libsdl.org/projects/SDL_net/docs/index.html
+- http://www.sdltutorials.com/sdl-net-part-1-user-tutorial
 
