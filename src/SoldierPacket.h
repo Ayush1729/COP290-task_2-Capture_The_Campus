@@ -32,14 +32,8 @@ public:
 	SoldierPacket(int sol_num, Planet* destination, Planet* origin){
 		soldiers = sol_num;
 		dest = destination;
-		//std::cout<<"in"<<endl;
 		destination_x = destination->x;
 		destination_y = destination->y;
-		//std::cout<<"mid"<<endl;
-
-		//std::cout<<"end"<<endl;
-		//speed_x = (speed/(abs(destination_x - x)+abs(destination_y - y)))*(destination_x - x);
-		//speed_y = (speed/(abs(destination_x - x)+abs(destination_y - y)))*(destination_y - y);
 
 		loyalty = origin->loyalty;
 
@@ -828,7 +822,7 @@ public:
 
 	void collision(Planet* shield_building){
 		// if collision with planet, alive = false, else if collision with another opposite packet, bigger one survives.
-		this->alive = false; // setting directly to false for now, ignoring mid-path collisions
+		this->alive = false;
 		dest->collided(loyalty, soldiers, shield_building);
 	}
 
@@ -903,7 +897,7 @@ public:
 
 	void render(float curr_screen_x, float curr_screen_y){
 		// rendering to screen
-		SDL_Rect fillRect = { this->x-7-curr_screen_x, this->y-7-curr_screen_y, 14*SCALING_FACTOR_X, 14*SCALING_FACTOR_Y };
+		SDL_Rect fillRect = { (this->x-8-curr_screen_x)*SCALING_FACTOR_X, (this->y-8-curr_screen_y)*SCALING_FACTOR_Y, 16*SCALING_FACTOR_X, 16*SCALING_FACTOR_Y };
         if (loyalty=="Red"){
         	SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 255 );
         }else if (loyalty == "Blue"){
@@ -916,12 +910,12 @@ public:
 
         //Render text
         SDL_Color textColor = { 255, 255, 255 };
-        if( !loadFromRenderedText(to_string(soldiers), textColor, gflappy)) {
+        if( !loadFromRenderedText(to_string(soldiers), textColor, gPacifico)) {
             std::cout<<"Failed to render text texture in planet!"<<std::endl;
             error_occ = true;
         }
     
-        SDL_Rect titl_pos = { x-6-curr_screen_x, y-6-curr_screen_y, 12*SCALING_FACTOR_X, 12*SCALING_FACTOR_Y  };
+        SDL_Rect titl_pos = { (x-7-curr_screen_x)*SCALING_FACTOR_X, (y-7-curr_screen_y)*SCALING_FACTOR_Y, 14*SCALING_FACTOR_X, 14*SCALING_FACTOR_Y  };
         // Text on screen
         SDL_RenderCopy( gRenderer, gTextTexture, NULL, &titl_pos );
 	}
