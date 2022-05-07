@@ -1,25 +1,6 @@
 #include "Dependencies.hpp"
 
 
-/*
-
-What all to include in this main file:
->> load all images
->> load all sounds
->> load all fonts
->> set a common timer/clock
->> initialize game (set up screen)
->> set scaling factors for everything (= Window width/SCREEN_WIDTH  and similarly for height)
->> set permanent images/sounds (like background image and infinite loop music)
->> create statemachine
->> check for keypressed (should do it here????????????????????)
->> function to call the current state to update
->> diplay FPS
->> render basic all time images like background and call upon the state to render its specificies
-
-*/
-
-
 
 
 bool init(){
@@ -52,14 +33,6 @@ bool init(){
             {
                 //Initialize renderer color
                 SDL_SetRenderDrawColor( gRenderer, 0xFF, 0xFF, 0xFF, 0xFF );
-
-                //Initialize PNG loading
-                /*int imgFlags = IMG_INIT_JPG|IMG_INIT_PNG;
-                if( !( IMG_Init( imgFlags ) & imgFlags ) )
-                {
-                    std::cout<<"SDL_image could not initialize! SDL_image Error: "<< IMG_GetError() ;
-                    error_occ = true;
-                }*/
 
 
                 //Initialize SDL_ttf
@@ -194,18 +167,40 @@ void close()
     Mix_FreeChunk( gbegin_sound );
     Mix_FreeChunk( gSelect_sound );
     Mix_FreeChunk( gVictory_sound );
-    Mix_FreeChunk( gLow );
+    //Mix_FreeChunk( gLow );
     gbegin_sound = NULL;
     gSelect_sound = NULL;
     gVictory_sound = NULL;
-    gLow = NULL;
+    //gLow = NULL;
+
+    Mix_FreeChunk(gShield_sound);
+    Mix_FreeChunk(gEMP_sound);
+    Mix_FreeChunk(gFreeze_sound);
+    Mix_FreeChunk(gAcid_sound);
+    Mix_FreeChunk(gFire_sound);
+    Mix_FreeChunk(gWall_sound);
+    Mix_FreeChunk(gCannon_sound);
+    Mix_FreeChunk(gSoldier_start_sound);
+    Mix_FreeChunk(gSoldier_attack_sound);
+
+    gShield_sound = NULL;
+    gEMP_sound = NULL;
+    gFreeze_sound = NULL;
+    gAcid_sound = NULL;
+    gFire_sound = NULL;
+    gWall_sound = NULL;
+    gCannon_sound = NULL;
+    gSoldier_start_sound = NULL;
+    gSoldier_attack_sound = NULL;
+
+
+    
     
     //Free the music
     Mix_FreeMusic( gMusic );
     Mix_FreeMusic(gPlay_Music);
     gMusic = NULL;
     gPlay_Music = NULL;
-
 
 
 
@@ -259,10 +254,10 @@ int main( int argc, char* args[] )
 
             TCPsocket client=SDLNet_TCP_Open(&ip);
 
-            int text2[9];
-            int* check;
-            // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, isquit}
-            int text[9] = {0,0,0,0,0,0,0,0,0};
+            float text2[11];
+            float* check;
+            // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, SCALING_FACTOR_X, SCALING_FACTOR_Y,isquit}
+            float text[11] = {0,0,0,0,0,0,0,0,0,0,0};
             check = text;
 
             //int state;
@@ -271,9 +266,9 @@ int main( int argc, char* args[] )
                 temp_time = SDL_GetTicks();
                 dt = temp_time - previous_time;
 
-                SDLNet_TCP_Send(client,check,sizeof(int)*9);
-                SDLNet_TCP_Recv(client,text2,9*sizeof(int));
-                std::cout <<text2[0]<<", "<<text2[1]<<", "<<text2[2]<<", "<<text2[3]<<", "<<text2[4]<<", "<<text2[5]<<", "<<text2[6]<<", "<<text2[7]<<", "<<text2[8]<<endl;
+                SDLNet_TCP_Send(client,check,sizeof(float)*11);
+                SDLNet_TCP_Recv(client,text2,11*sizeof(float));
+                std::cout <<text2[0]<<", "<<text2[1]<<", "<<text2[2]<<", "<<text2[3]<<", "<<text2[4]<<", "<<text2[5]<<", "<<text2[6]<<", "<<text2[7]<<", "<<text2[8]<<", "<<text2[9]<<", "<<text2[10]<<endl;
 
 
                 if (dt>1000/60) {
@@ -283,20 +278,20 @@ int main( int argc, char* args[] )
                     SCALING_FACTOR_Y = h/SCREEN_HEIGHT;
                     
                     if (gState == "Start"){
-                        start_state->update(dt/1000, text2[8]);
+                        start_state->update(dt/1000, text2[10]);
                     }else if (gState == "Options"){
-                        options_state->update(dt/1000, text2[8]);
+                        options_state->update(dt/1000, text2[10]);
                     }else if (gState == "Powers"){
-                        powers_state->update(dt/1000, text2[8]);
+                        powers_state->update(dt/1000, text2[10]);
                     }else if (gState == "Play"){
                         play_state->render();
                         play_state->update(dt/1000, text2);
-                        int arr[9] = {1, play_state->clicked, play_state->isleft, play_state->isright, play_state->click_x, play_state->click_y, play_state->Current_view_x, play_state->Current_view_y, play_state->isquit};
+                        float arr[11] = {1, play_state->clicked, play_state->isleft, play_state->isright, play_state->click_x, play_state->click_y, play_state->Current_view_x, play_state->Current_view_y, SCALING_FACTOR_X, SCALING_FACTOR_Y,play_state->isquit};
                         check = arr;
                     }else if (gState == "GameOver"){
-                        int arr[9] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+                        float arr[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0};
                         check = arr;
-                        gameover_state->update(dt/1000, text2[8]);
+                        gameover_state->update(dt/1000, text2[10]);
                     }
                     else{
                         quit = true;
@@ -306,13 +301,13 @@ int main( int argc, char* args[] )
                 }                
             }
 
-            int arr[9] = {0, 0, 0, 0, 0, 0, 0, 0, 1};
+            float arr[11] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1};
             check = arr;
 
 
-            SDLNet_TCP_Send(client,check,sizeof(int)*9);
-            SDLNet_TCP_Recv(client,text2,9*sizeof(int));
-            std::cout <<text2[0]<<", "<<text2[1]<<", "<<text2[2]<<", "<<text2[3]<<", "<<text2[4]<<", "<<text2[5]<<", "<<text2[6]<<", "<<text2[7]<<", "<<text2[8]<<endl;
+            SDLNet_TCP_Send(client,check,sizeof(float)*11);
+            SDLNet_TCP_Recv(client,text2,11*sizeof(float));
+            std::cout <<text2[0]<<", "<<text2[1]<<", "<<text2[2]<<", "<<text2[3]<<", "<<text2[4]<<", "<<text2[5]<<", "<<text2[6]<<", "<<text2[7]<<", "<<text2[8]<<", "<<text2[9]<<", "<<text2[10]<<endl;
 
             SDLNet_TCP_Close(client);
             SDLNet_Quit();
