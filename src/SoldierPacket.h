@@ -903,7 +903,7 @@ public:
 
 	void render(float curr_screen_x, float curr_screen_y){
 		// rendering to screen
-		SDL_Rect fillRect = { this->x-5-curr_screen_x, this->y-5-curr_screen_y, 10, 10 };
+		SDL_Rect fillRect = { this->x-7-curr_screen_x, this->y-7-curr_screen_y, 14*SCALING_FACTOR_X, 14*SCALING_FACTOR_Y };
         if (loyalty=="Red"){
         	SDL_SetRenderDrawColor( gRenderer, 255, 0, 0, 255 );
         }else if (loyalty == "Blue"){
@@ -921,7 +921,7 @@ public:
             error_occ = true;
         }
     
-        SDL_Rect titl_pos = { x-5-curr_screen_x, y-5-curr_screen_y, 10*SCALING_FACTOR_X, 10*SCALING_FACTOR_Y  };
+        SDL_Rect titl_pos = { x-6-curr_screen_x, y-6-curr_screen_y, 12*SCALING_FACTOR_X, 12*SCALING_FACTOR_Y  };
         // Text on screen
         SDL_RenderCopy( gRenderer, gTextTexture, NULL, &titl_pos );
 	}
