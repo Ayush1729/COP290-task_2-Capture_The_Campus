@@ -43,6 +43,7 @@ class CannonBall {
 					my_Cannon_building->power_available = false;
 
 					if (my_target_packet->alive){my_target_packet->soldiers -= 5;}
+					my_target_packet = NULL;
 				}
 
 				x += (speed/(abs(target_x - x)+abs(target_y - y)))*(target_x - x);
@@ -53,7 +54,7 @@ class CannonBall {
 
 		void render(float curr_screen_x, float curr_screen_y){
 			if (this->alive) {
-				SDL_Rect fillRect = { x-10-curr_screen_x, y-10-curr_screen_y, 20*SCALING_FACTOR_X, 20*SCALING_FACTOR_Y  };
+				SDL_Rect fillRect = { (x-10-curr_screen_x)*SCALING_FACTOR_X, (y-10-curr_screen_y)*SCALING_FACTOR_Y, 20*SCALING_FACTOR_X, 20*SCALING_FACTOR_Y  };
 	        	SDL_RenderCopy( gRenderer, gTexture_cannon, NULL, &fillRect );
         	}
 	    }
