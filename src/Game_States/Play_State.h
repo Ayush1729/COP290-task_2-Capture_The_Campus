@@ -60,16 +60,17 @@ class Play_State{
         float Current_view_speed = 15;
         float CAMPUS_WIDTH = 3017;
         float CAMPUS_HEIGHT = 1187;
-        int click_x = 0;
-        int click_y = 0;
-        int clicked = 0;
-        int isright = 0;
-        int isleft = 0;
-        int isquit = 0;
+        float click_x = 0;
+        float click_y = 0;
+        float clicked = 0;
+        float isright = 0;
+        float isleft = 0;
+        float isquit = 0;
 
 
         void create_packet(int outgoing, Planet* selected_origin, Planet* selected_destination){
             SoldierPacket* temp = new SoldierPacket(outgoing, selected_destination, selected_origin);
+            Mix_PlayChannel( -1, gSoldier_start_sound, 0 );
             all_soldiers->insert(temp);
             temp = NULL;
         }
@@ -296,6 +297,8 @@ class Play_State{
 
             // the six buttons for the six powers
 
+            SDL_SetTextureColorMod( gSelect_image, 230, 230, 230 );
+
             // Fire Circle
             SDL_Rect fillRect = { ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X, (27*SCREEN_HEIGHT/30)*SCALING_FACTOR_Y, (SCREEN_WIDTH/15)*SCALING_FACTOR_X, (SCREEN_HEIGHT/15)*SCALING_FACTOR_Y };
             if ((Apartments_boys->power_available) and (Apartments_boys->loyalty == my_loyalty)){
@@ -303,9 +306,13 @@ class Play_State{
             }else{
                 SDL_SetTextureColorMod( gTexture_fire_button, 70, 70, 70 );
             }
-            
             SDL_RenderCopy( gRenderer, gTexture_fire_button, NULL, &fillRect );
 
+            if ((Apartments_boys->power_available) and (Apartments_boys->loyalty == my_loyalty)){
+                if ((my_loyalty=="Blue") and (selected_power_blue == "Fire Circle")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+                if ((my_loyalty=="Red") and (selected_power_red == "Fire Circle")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+            }
+            
 
             // Shield
             fillRect = { ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X, (27*SCREEN_HEIGHT/30)*SCALING_FACTOR_Y, (SCREEN_WIDTH/15)*SCALING_FACTOR_X, (SCREEN_HEIGHT/15)*SCALING_FACTOR_Y };
@@ -315,6 +322,11 @@ class Play_State{
                 SDL_SetTextureColorMod( gTexture_shield_button, 70, 70, 70 );
             }
             SDL_RenderCopy( gRenderer, gTexture_shield_button, NULL, &fillRect );
+
+            if ((Hospital->power_available) and (Hospital->loyalty == my_loyalty)){
+                if ((my_loyalty=="Blue") and (selected_power_blue == "Shield")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+                if ((my_loyalty=="Red") and (selected_power_red == "Shield")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+            }
 
 
             // EMP
@@ -326,6 +338,11 @@ class Play_State{
             }
             SDL_RenderCopy( gRenderer, gTexture_emp_button, NULL, &fillRect );
 
+            if ((Research->power_available) and (Research->loyalty == my_loyalty)){
+                if ((my_loyalty=="Blue") and (selected_power_blue == "EMP")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+                if ((my_loyalty=="Red") and (selected_power_red == "EMP")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+            }
+
 
             // Road Block
             fillRect = { ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X, (27*SCREEN_HEIGHT/30)*SCALING_FACTOR_Y, (SCREEN_WIDTH/15)*SCALING_FACTOR_X, (SCREEN_HEIGHT/15)*SCALING_FACTOR_Y };
@@ -335,6 +352,11 @@ class Play_State{
                 SDL_SetTextureColorMod( gTexture_wall_button, 70, 70, 70 );
             }
             SDL_RenderCopy( gRenderer, gTexture_wall_button, NULL, &fillRect );
+
+            if ((OAT->power_available) and (OAT->loyalty == my_loyalty)){
+                if ((my_loyalty=="Blue") and (selected_power_blue == "Road Block")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+                if ((my_loyalty=="Red") and (selected_power_red == "Road Block")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+            }
 
 
             // Freeze
@@ -346,6 +368,11 @@ class Play_State{
             }
             SDL_RenderCopy( gRenderer, gTexture_freeze_button, NULL, &fillRect );
 
+            if ((LHC->power_available) and (LHC->loyalty == my_loyalty)) {
+                if ((my_loyalty=="Blue") and (selected_power_blue == "Freeze")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+                if ((my_loyalty=="Red") and (selected_power_red == "Freeze")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+            }
+
 
             // Acid Circle
             fillRect = { ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X, (27*SCREEN_HEIGHT/30)*SCALING_FACTOR_Y, (SCREEN_WIDTH/15)*SCALING_FACTOR_X, (SCREEN_HEIGHT/15)*SCALING_FACTOR_Y };
@@ -355,6 +382,11 @@ class Play_State{
                 SDL_SetTextureColorMod( gTexture_acid_button, 70, 70, 70 );
             }
             SDL_RenderCopy( gRenderer, gTexture_acid_button, NULL, &fillRect );
+
+            if ((Apartments_girls->power_available) and (Apartments_girls->loyalty == my_loyalty)){
+                if ((my_loyalty=="Blue") and (selected_power_blue == "Acid Circle")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+                if ((my_loyalty=="Red") and (selected_power_red == "Acid Circle")) {SDL_RenderCopy( gRenderer, gSelect_image, NULL, &fillRect );}
+            }
 
 
 
@@ -409,10 +441,10 @@ class Play_State{
                 }
 
                 SDL_Rect titl_pos;
-                titl_pos.w = (0.6*SCREEN_WIDTH);
-                titl_pos.h = (0.4*SCREEN_HEIGHT);
-                titl_pos.x = (0.2*SCREEN_WIDTH);
-                titl_pos.y = (0.3*SCREEN_HEIGHT);
+                titl_pos.w = (0.6*SCREEN_WIDTH)*SCALING_FACTOR_X;
+                titl_pos.h = (0.4*SCREEN_HEIGHT)*SCALING_FACTOR_Y;
+                titl_pos.x = (0.2*SCREEN_WIDTH)*SCALING_FACTOR_X;
+                titl_pos.y = (0.3*SCREEN_HEIGHT)*SCALING_FACTOR_Y;
                 // Text on screen
                 SDL_RenderCopy( gRenderer, gTextTexture, NULL, &titl_pos );
             
@@ -435,12 +467,14 @@ class Play_State{
 
 
 
-		void update(float dt, int other_player[]){
+		void update(float dt, float other_player[]){
 
 
             // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, isquit}
             //["None", "Cannon", "EMP", "Fire Circle", "Acid Circle", "Road Block", "Fast Spawn", "Fast Move", "Freeze", "Shield"]
 
+            clicked = 0;
+            
             if ((!finished) and (other_player[0]==1)){
                 LHC->update(dt, Research, Hospital);
                 Library->update(dt, Research, Hospital);
@@ -499,10 +533,6 @@ class Play_State{
 
 
 
-
-
-
-
                 if (my_loyalty == "Blue"){
 
         			SDL_Event e;
@@ -530,6 +560,8 @@ class Play_State{
 
                                     isleft = 1;
                                     isright = 0;
+
+
                                     // the six power buttons
 
                                     // relative to campus click position print
@@ -537,11 +569,12 @@ class Play_State{
 
                                     if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         // selected powerup 1 Fire Circle
-                                        if (Apartments_boys->power_available){
+                                        if (Apartments_boys->power_available and Apartments_boys->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Fire Circle"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Fire Circle";
                                                 }
@@ -553,11 +586,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 2 Shield
-                                        if (Hospital->power_available){
+                                        if (Hospital->power_available and Hospital->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Shield"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Shield";
                                                 }
@@ -569,11 +603,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 3 EMP
-                                        if (Research->power_available){
+                                        if (Research->power_available and Research->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "EMP"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "EMP";
                                                 }
@@ -585,11 +620,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 4 Road Block
-                                        if (OAT->power_available){
+                                        if (OAT->power_available and OAT->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Road Block"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Road Block";
                                                 }
@@ -601,11 +637,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 5 Freeze
-                                        if (LHC->power_available){
+                                        if (LHC->power_available and LHC->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Freeze"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Freeze";
                                                 }
@@ -617,11 +654,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 6 Acid Circle
-                                        if (Apartments_girls->power_available){
+                                        if (Apartments_girls->power_available and Apartments_girls->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Acid Circle"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Acid Circle";
                                                 }
@@ -647,7 +685,10 @@ class Play_State{
                                             Apartments_boys->power_restore_time = 15;
                                             Apartments_boys->power_strength = 10;
 
+                                            Mix_PlayChannel( -1, gFire_sound, 0 );
+
                                         }
+
                                         else if(selected_power_blue=="Shield"){// works only on buildings
 
 
@@ -677,6 +718,8 @@ class Play_State{
                                                 Hospital->power_stay_time = 2;
                                                 Hospital->radius = 200;
                                                 Hospital->power_restore_time = 15;
+
+                                                Mix_PlayChannel( -1, gShield_sound, 0 );
                                             }
                                         }
 
@@ -711,6 +754,8 @@ class Play_State{
                                                 Research->power_restore_time = 15;
                                                 Research->power_strength = 18;
 
+                                                Mix_PlayChannel( -1, gEMP_sound, 0 );
+
                                             }else{
                                                 // display error, click on an enemy building
                                             }
@@ -718,6 +763,7 @@ class Play_State{
 
 
                                         }
+
                                         else if (selected_power_blue=="Road Block"){// works only on roads
                                             OAT->power_available = false;
                                             OAT->power_circle_centre_x = Current_view_x + (click_x)/(SCALING_FACTOR_X);
@@ -725,12 +771,18 @@ class Play_State{
                                             OAT->power_stay_time = 4;
                                             OAT->radius = 40;
                                             OAT->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gWall_sound, 0 );
                                         }
+
                                         else if (selected_power_blue=="Freeze"){// works on every action of the opponent 
                                             LHC->power_available = false;
                                             LHC->power_stay_time = 4;
                                             LHC->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gFreeze_sound, 0 );
                                         }
+
                                         else if (selected_power_blue=="Acid Circle"){// works only on moving targets
                                             Apartments_girls->power_available = false;
                                             Apartments_girls->power_circle_centre_x = Current_view_x + (click_x)/(SCALING_FACTOR_X);
@@ -739,6 +791,8 @@ class Play_State{
                                             Apartments_girls->radius = 180;
                                             Apartments_girls->power_restore_time = 15;
                                             Apartments_girls->power_strength = 10;
+
+                                            Mix_PlayChannel( -1, gAcid_sound, 0 );
                                         }
 
                                         selected_power_blue = "None";
@@ -825,7 +879,7 @@ class Play_State{
                     // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, isquit}
 
                     if (!(quit)){
-                        if (other_player[8] == 1){
+                        if (other_player[10] == 1){
                             quit = true;
                             isquit = 1;
                         }
@@ -834,13 +888,14 @@ class Play_State{
 
                                     // the six power buttons
 
-                                    if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         // selected powerup 1 Fire Circle
-                                        if (Apartments_boys->power_available){
+                                        if (Apartments_boys->power_available and Apartments_boys->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Fire Circle"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Fire Circle";
                                                 }
@@ -850,13 +905,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*4.75/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.75/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 2 Shield
-                                        if (Hospital->power_available){
+                                        if (Hospital->power_available and Hospital->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Shield"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Shield";
                                                 }
@@ -866,13 +922,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*0.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 3 EMP
-                                        if (Research->power_available){
+                                        if (Research->power_available and Research->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "EMP"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "EMP";
                                                 }
@@ -882,13 +939,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*0.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 4 Road Block
-                                        if (OAT->power_available){
+                                        if (OAT->power_available and OAT->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Road Block"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Road Block";
                                                 }
@@ -898,13 +956,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.75/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*4.75/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 5 Freeze
-                                        if (LHC->power_available){
+                                        if (LHC->power_available and LHC->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Freeze"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Freeze";
                                                 }
@@ -914,13 +973,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*5.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*7.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 6 Acid Circle
-                                        if (Apartments_girls->power_available){
+                                        if (Apartments_girls->power_available and Apartments_girls->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Acid Circle"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Acid Circle";
                                                 }
@@ -939,36 +999,39 @@ class Play_State{
 
                                         if (selected_power_red=="Fire Circle"){// works only on moving soldiers
                                             Apartments_boys->power_available = false;
-                                            Apartments_boys->power_circle_centre_x = other_player[6] + (other_player[4])/(SCALING_FACTOR_X);
-                                            Apartments_boys->power_circle_centre_y = other_player[7] + (other_player[5])/(SCALING_FACTOR_Y);
+                                            Apartments_boys->power_circle_centre_x = other_player[6] + (other_player[4])/(other_player[8]);
+                                            Apartments_boys->power_circle_centre_y = other_player[7] + (other_player[5])/(other_player[9]);
                                             Apartments_boys->power_stay_time = 2;
                                             Apartments_boys->radius = 180;
                                             Apartments_boys->power_restore_time = 15;
                                             Apartments_boys->power_strength = 10;
 
+                                            Mix_PlayChannel( -1, gFire_sound, 0 );
+
                                         }
+
                                         else if(selected_power_red=="Shield"){// works only on buildings
 
 
                                             bool correct_place_click = false;
 
-                                            if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 286) and (Jwala->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Jwala->x; Hospital->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 298) and (Blue_Home->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Blue_Home->x; Hospital->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 619) and (Kara->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Kara->x; Hospital->power_circle_centre_y = Kara->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 567) and (Masala->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Masala->x; Hospital->power_circle_centre_y = Masala->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 572) and (Hospital->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Hospital->x; Hospital->power_circle_centre_y = Hospital->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 385) and (Main_building->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Main_building->x; Hospital->power_circle_centre_y = Main_building->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 860) and (Apartments_boys->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_boys->x; Hospital->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 914) and (OAT->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = OAT->x; Hospital->power_circle_centre_y = OAT->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 836) and (Playground->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Playground->x; Hospital->power_circle_centre_y = Playground->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 1046) and (Research->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Research->x; Hospital->power_circle_centre_y = Research->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 564) and (Library->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Library->x; Hospital->power_circle_centre_y = Library->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 848) and (Apartments_girls->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_girls->x; Hospital->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 769) and (LHC->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = LHC->x; Hospital->power_circle_centre_y = LHC->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 278) and (Red_Home->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Red_Home->x; Hospital->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 536) and (Market->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Market->x; Hospital->power_circle_centre_y = Market->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 349) and (Amaltas->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Amaltas->x; Hospital->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 542) and (School->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = School->x; Hospital->power_circle_centre_y = School->y; correct_place_click = true;}
+                                            if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7] + (other_player[5])/(other_player[9]) > 169) and (other_player[7] + (other_player[5])/(other_player[9]) < 286) and (Jwala->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Jwala->x; Hospital->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7] + (other_player[5])/(other_player[9]) > 201) and (other_player[7] + (other_player[5])/(other_player[9]) < 298) and (Blue_Home->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Blue_Home->x; Hospital->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7] + (other_player[5])/(other_player[9]) > 507) and (other_player[7] + (other_player[5])/(other_player[9]) < 619) and (Kara->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Kara->x; Hospital->power_circle_centre_y = Kara->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7] + (other_player[5])/(other_player[9]) > 471) and (other_player[7] + (other_player[5])/(other_player[9]) < 567) and (Masala->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Masala->x; Hospital->power_circle_centre_y = Masala->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7] + (other_player[5])/(other_player[9]) > 453) and (other_player[7] + (other_player[5])/(other_player[9]) < 572) and (Hospital->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Hospital->x; Hospital->power_circle_centre_y = Hospital->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7] + (other_player[5])/(other_player[9]) > 231) and (other_player[7] + (other_player[5])/(other_player[9]) < 385) and (Main_building->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Main_building->x; Hospital->power_circle_centre_y = Main_building->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7] + (other_player[5])/(other_player[9]) > 756) and (other_player[7] + (other_player[5])/(other_player[9]) < 860) and (Apartments_boys->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_boys->x; Hospital->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7] + (other_player[5])/(other_player[9]) > 807) and (other_player[7] + (other_player[5])/(other_player[9]) < 914) and (OAT->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = OAT->x; Hospital->power_circle_centre_y = OAT->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7] + (other_player[5])/(other_player[9]) > 665) and (other_player[7] + (other_player[5])/(other_player[9]) < 836) and (Playground->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Playground->x; Hospital->power_circle_centre_y = Playground->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7] + (other_player[5])/(other_player[9]) > 927) and (other_player[7] + (other_player[5])/(other_player[9]) < 1046) and (Research->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Research->x; Hospital->power_circle_centre_y = Research->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7] + (other_player[5])/(other_player[9]) > 448) and (other_player[7] + (other_player[5])/(other_player[9]) < 564) and (Library->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Library->x; Hospital->power_circle_centre_y = Library->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7] + (other_player[5])/(other_player[9]) > 712) and (other_player[7] + (other_player[5])/(other_player[9]) < 848) and (Apartments_girls->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_girls->x; Hospital->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7] + (other_player[5])/(other_player[9]) > 611) and (other_player[7] + (other_player[5])/(other_player[9]) < 769) and (LHC->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = LHC->x; Hospital->power_circle_centre_y = LHC->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7] + (other_player[5])/(other_player[9]) > 176) and (other_player[7] + (other_player[5])/(other_player[9]) < 278) and (Red_Home->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Red_Home->x; Hospital->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7] + (other_player[5])/(other_player[9]) > 444) and (other_player[7] + (other_player[5])/(other_player[9]) < 536) and (Market->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Market->x; Hospital->power_circle_centre_y = Market->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7] + (other_player[5])/(other_player[9]) > 249) and (other_player[7] + (other_player[5])/(other_player[9]) < 349) and (Amaltas->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Amaltas->x; Hospital->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7] + (other_player[5])/(other_player[9]) > 428) and (other_player[7] + (other_player[5])/(other_player[9]) < 542) and (School->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = School->x; Hospital->power_circle_centre_y = School->y; correct_place_click = true;}
 
 
                                             if (correct_place_click){
@@ -976,6 +1039,8 @@ class Play_State{
                                                 Hospital->power_stay_time = 2;
                                                 Hospital->radius = 200;
                                                 Hospital->power_restore_time = 15;
+
+                                                Mix_PlayChannel( -1, gShield_sound, 0 );
                                             }
                                         }
 
@@ -986,29 +1051,31 @@ class Play_State{
 
                                             bool correct_place_click = false;
 
-                                            if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 286) and (Jwala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Jwala->x; Research->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 298) and (Blue_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Blue_Home->x; Research->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 619) and (Kara->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Kara->x; Research->power_circle_centre_y = Kara->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 567) and (Masala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Masala->x; Research->power_circle_centre_y = Masala->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 572) and (Hospital->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Hospital->x; Research->power_circle_centre_y = Hospital->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 385) and (Main_building->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Main_building->x; Research->power_circle_centre_y = Main_building->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 860) and (Apartments_boys->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_boys->x; Research->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 914) and (OAT->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = OAT->x; Research->power_circle_centre_y = OAT->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 836) and (Playground->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Playground->x; Research->power_circle_centre_y = Playground->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 1046) and (Research->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Research->x; Research->power_circle_centre_y = Research->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 564) and (Library->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Library->x; Research->power_circle_centre_y = Library->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 848) and (Apartments_girls->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_girls->x; Research->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 769) and (LHC->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = LHC->x; Research->power_circle_centre_y = LHC->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 278) and (Red_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Red_Home->x; Research->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 536) and (Market->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Market->x; Research->power_circle_centre_y = Market->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 349) and (Amaltas->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Amaltas->x; Research->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 542) and (School->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = School->x; Research->power_circle_centre_y = School->y; correct_place_click = true;}
+                                            if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7] + (other_player[5])/(other_player[9]) > 169) and (other_player[7] + (other_player[5])/(other_player[9]) < 286) and (Jwala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Jwala->x; Research->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7] + (other_player[5])/(other_player[9]) > 201) and (other_player[7] + (other_player[5])/(other_player[9]) < 298) and (Blue_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Blue_Home->x; Research->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7] + (other_player[5])/(other_player[9]) > 507) and (other_player[7] + (other_player[5])/(other_player[9]) < 619) and (Kara->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Kara->x; Research->power_circle_centre_y = Kara->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7] + (other_player[5])/(other_player[9]) > 471) and (other_player[7] + (other_player[5])/(other_player[9]) < 567) and (Masala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Masala->x; Research->power_circle_centre_y = Masala->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7] + (other_player[5])/(other_player[9]) > 453) and (other_player[7] + (other_player[5])/(other_player[9]) < 572) and (Hospital->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Hospital->x; Research->power_circle_centre_y = Hospital->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7] + (other_player[5])/(other_player[9]) > 231) and (other_player[7] + (other_player[5])/(other_player[9]) < 385) and (Main_building->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Main_building->x; Research->power_circle_centre_y = Main_building->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7] + (other_player[5])/(other_player[9]) > 756) and (other_player[7] + (other_player[5])/(other_player[9]) < 860) and (Apartments_boys->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_boys->x; Research->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7] + (other_player[5])/(other_player[9]) > 807) and (other_player[7] + (other_player[5])/(other_player[9]) < 914) and (OAT->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = OAT->x; Research->power_circle_centre_y = OAT->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7] + (other_player[5])/(other_player[9]) > 665) and (other_player[7] + (other_player[5])/(other_player[9]) < 836) and (Playground->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Playground->x; Research->power_circle_centre_y = Playground->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7] + (other_player[5])/(other_player[9]) > 927) and (other_player[7] + (other_player[5])/(other_player[9]) < 1046) and (Research->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Research->x; Research->power_circle_centre_y = Research->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7] + (other_player[5])/(other_player[9]) > 448) and (other_player[7] + (other_player[5])/(other_player[9]) < 564) and (Library->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Library->x; Research->power_circle_centre_y = Library->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7] + (other_player[5])/(other_player[9]) > 712) and (other_player[7] + (other_player[5])/(other_player[9]) < 848) and (Apartments_girls->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_girls->x; Research->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7] + (other_player[5])/(other_player[9]) > 611) and (other_player[7] + (other_player[5])/(other_player[9]) < 769) and (LHC->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = LHC->x; Research->power_circle_centre_y = LHC->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7] + (other_player[5])/(other_player[9]) > 176) and (other_player[7] + (other_player[5])/(other_player[9]) < 278) and (Red_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Red_Home->x; Research->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7] + (other_player[5])/(other_player[9]) > 444) and (other_player[7] + (other_player[5])/(other_player[9]) < 536) and (Market->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Market->x; Research->power_circle_centre_y = Market->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7] + (other_player[5])/(other_player[9]) > 249) and (other_player[7] + (other_player[5])/(other_player[9]) < 349) and (Amaltas->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Amaltas->x; Research->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7] + (other_player[5])/(other_player[9]) > 428) and (other_player[7] + (other_player[5])/(other_player[9]) < 542) and (School->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = School->x; Research->power_circle_centre_y = School->y; correct_place_click = true;}
                                             
                                             if (correct_place_click){
                                                 Research->power_stay_time = 1;
                                                 Research->radius = 150;
                                                 Research->power_restore_time = 15;
                                                 Research->power_strength = 15;
+
+                                                Mix_PlayChannel( -1, gEMP_sound, 0 );
 
                                             }else{
                                                 // display error, click on an enemy building
@@ -1017,27 +1084,36 @@ class Play_State{
 
 
                                         }
+
                                         else if (selected_power_red=="Road Block"){// works only on roads
                                             OAT->power_available = false;
-                                            OAT->power_circle_centre_x = other_player[6] + (other_player[4])/(SCALING_FACTOR_X);
-                                            OAT->power_circle_centre_y = other_player[7] + (other_player[5])/(SCALING_FACTOR_Y);
+                                            OAT->power_circle_centre_x = other_player[6] + (other_player[4])/(other_player[8]);
+                                            OAT->power_circle_centre_y = other_player[7] + (other_player[5])/(other_player[9]);
                                             OAT->power_stay_time = 4;
                                             OAT->radius = 40;
                                             OAT->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gWall_sound, 0 );
                                         }
+
                                         else if (selected_power_red=="Freeze"){// works on every action of the opponent 
                                             LHC->power_available = false;
                                             LHC->power_stay_time = 4;
                                             LHC->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gFreeze_sound, 0 );
                                         }
+
                                         else if (selected_power_red=="Acid Circle"){// works only on moving targets
                                             Apartments_girls->power_available = false;
-                                            Apartments_girls->power_circle_centre_x = other_player[6] + (other_player[4])/(SCALING_FACTOR_X);
-                                            Apartments_girls->power_circle_centre_y = other_player[7] + (other_player[5])/(SCALING_FACTOR_Y);
+                                            Apartments_girls->power_circle_centre_x = other_player[6] + (other_player[4])/(other_player[8]);
+                                            Apartments_girls->power_circle_centre_y = other_player[7] + (other_player[5])/(other_player[9]);
                                             Apartments_girls->power_stay_time = 2;
                                             Apartments_girls->radius = 180;
                                             Apartments_girls->power_restore_time = 15;
                                             Apartments_girls->power_strength = 10;
+
+                                            Mix_PlayChannel( -1, gAcid_sound, 0 );
                                         }
 
                                         selected_power_red = "None";
@@ -1046,23 +1122,23 @@ class Play_State{
                                     // using equation of ellipse: x^2/a^2 + y^2/b^2 < 1 for an inside point
 
                                     //selecting origin
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 286) and (Jwala->loyalty == "Red") ) {selected_origin_red = Jwala;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 298) and (Blue_Home->loyalty == "Red") ) {selected_origin_red = Blue_Home;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 619) and (Kara->loyalty == "Red") ) {selected_origin_red = Kara;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 567) and (Masala->loyalty == "Red") ) {selected_origin_red = Masala;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 572) and (Hospital->loyalty == "Red") ) {selected_origin_red = Hospital;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 385) and (Main_building->loyalty == "Red") ) {selected_origin_red = Main_building;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 860) and (Apartments_boys->loyalty == "Red") ) {selected_origin_red = Apartments_boys;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 914) and (OAT->loyalty == "Red") ) {selected_origin_red = OAT;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 836) and (Playground->loyalty == "Red") ) {selected_origin_red = Playground;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 1046) and (Research->loyalty == "Red") ) {selected_origin_red = Research;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 564) and (Library->loyalty == "Red") ) {selected_origin_red = Library;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 848) and (Apartments_girls->loyalty == "Red") ) {selected_origin_red = Apartments_girls;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 769) and (LHC->loyalty == "Red") ) {selected_origin_red = LHC;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 278) and (Red_Home->loyalty == "Red") ) {selected_origin_red = Red_Home;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 536) and (Market->loyalty == "Red") ) {selected_origin_red = Market;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 349) and (Amaltas->loyalty == "Red") ) {selected_origin_red = Amaltas;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 542) and (School->loyalty == "Red") ) {selected_origin_red = School;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7] + (other_player[5])/(other_player[9]) > 169) and (other_player[7] + (other_player[5])/(other_player[9]) < 286) and (Jwala->loyalty == "Red") ) {selected_origin_red = Jwala;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7] + (other_player[5])/(other_player[9]) > 201) and (other_player[7] + (other_player[5])/(other_player[9]) < 298) and (Blue_Home->loyalty == "Red") ) {selected_origin_red = Blue_Home;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7] + (other_player[5])/(other_player[9]) > 507) and (other_player[7] + (other_player[5])/(other_player[9]) < 619) and (Kara->loyalty == "Red") ) {selected_origin_red = Kara;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7] + (other_player[5])/(other_player[9]) > 471) and (other_player[7] + (other_player[5])/(other_player[9]) < 567) and (Masala->loyalty == "Red") ) {selected_origin_red = Masala;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7] + (other_player[5])/(other_player[9]) > 453) and (other_player[7] + (other_player[5])/(other_player[9]) < 572) and (Hospital->loyalty == "Red") ) {selected_origin_red = Hospital;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7] + (other_player[5])/(other_player[9]) > 231) and (other_player[7] + (other_player[5])/(other_player[9]) < 385) and (Main_building->loyalty == "Red") ) {selected_origin_red = Main_building;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7] + (other_player[5])/(other_player[9]) > 756) and (other_player[7] + (other_player[5])/(other_player[9]) < 860) and (Apartments_boys->loyalty == "Red") ) {selected_origin_red = Apartments_boys;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7] + (other_player[5])/(other_player[9]) > 807) and (other_player[7] + (other_player[5])/(other_player[9]) < 914) and (OAT->loyalty == "Red") ) {selected_origin_red = OAT;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7] + (other_player[5])/(other_player[9]) > 665) and (other_player[7] + (other_player[5])/(other_player[9]) < 836) and (Playground->loyalty == "Red") ) {selected_origin_red = Playground;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7] + (other_player[5])/(other_player[9]) > 927) and (other_player[7] + (other_player[5])/(other_player[9]) < 1046) and (Research->loyalty == "Red") ) {selected_origin_red = Research;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7] + (other_player[5])/(other_player[9]) > 448) and (other_player[7] + (other_player[5])/(other_player[9]) < 564) and (Library->loyalty == "Red") ) {selected_origin_red = Library;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7] + (other_player[5])/(other_player[9]) > 712) and (other_player[7] + (other_player[5])/(other_player[9]) < 848) and (Apartments_girls->loyalty == "Red") ) {selected_origin_red = Apartments_girls;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7] + (other_player[5])/(other_player[9]) > 611) and (other_player[7] + (other_player[5])/(other_player[9]) < 769) and (LHC->loyalty == "Red") ) {selected_origin_red = LHC;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7] + (other_player[5])/(other_player[9]) > 176) and (other_player[7] + (other_player[5])/(other_player[9]) < 278) and (Red_Home->loyalty == "Red") ) {selected_origin_red = Red_Home;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7] + (other_player[5])/(other_player[9]) > 444) and (other_player[7] + (other_player[5])/(other_player[9]) < 536) and (Market->loyalty == "Red") ) {selected_origin_red = Market;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7] + (other_player[5])/(other_player[9]) > 249) and (other_player[7] + (other_player[5])/(other_player[9]) < 349) and (Amaltas->loyalty == "Red") ) {selected_origin_red = Amaltas;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7] + (other_player[5])/(other_player[9]) > 428) and (other_player[7] + (other_player[5])/(other_player[9]) < 542) and (School->loyalty == "Red") ) {selected_origin_red = School;}
 
 
 
@@ -1077,23 +1153,23 @@ class Play_State{
                                         // Rectangle selection instead of ellipse here. Ellipse to be used for power circles. 
 
                                         // selecting destination
-                                        if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 286) ) {selected_destination_red = Jwala;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 298) ) {selected_destination_red = Blue_Home;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 619) ) {selected_destination_red = Kara;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 567) ) {selected_destination_red = Masala;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 572) ) {selected_destination_red = Hospital;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 385) ) {selected_destination_red = Main_building;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 860) ) {selected_destination_red = Apartments_boys;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 914) ) {selected_destination_red = OAT;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 836) ) {selected_destination_red = Playground;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 1046) ) {selected_destination_red = Research;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 564) ) {selected_destination_red = Library;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 848) ) {selected_destination_red = Apartments_girls;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 769) ) {selected_destination_red = LHC;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 278) ) {selected_destination_red = Red_Home;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 536) ) {selected_destination_red = Market;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 349) ) {selected_destination_red = Amaltas;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 542) ) {selected_destination_red = School;}
+                                        if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7]+ (other_player[5])/(other_player[9]) > 169) and (other_player[7]+ (other_player[5])/(other_player[9]) < 286) ) {selected_destination_red = Jwala;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7]+ (other_player[5])/(other_player[9]) > 201) and (other_player[7]+ (other_player[5])/(other_player[9]) < 298) ) {selected_destination_red = Blue_Home;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7]+ (other_player[5])/(other_player[9]) > 507) and (other_player[7]+ (other_player[5])/(other_player[9]) < 619) ) {selected_destination_red = Kara;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7]+ (other_player[5])/(other_player[9]) > 471) and (other_player[7]+ (other_player[5])/(other_player[9]) < 567) ) {selected_destination_red = Masala;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7]+ (other_player[5])/(other_player[9]) > 453) and (other_player[7]+ (other_player[5])/(other_player[9]) < 572) ) {selected_destination_red = Hospital;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7]+ (other_player[5])/(other_player[9]) > 231) and (other_player[7]+ (other_player[5])/(other_player[9]) < 385) ) {selected_destination_red = Main_building;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7]+ (other_player[5])/(other_player[9]) > 756) and (other_player[7]+ (other_player[5])/(other_player[9]) < 860) ) {selected_destination_red = Apartments_boys;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7]+ (other_player[5])/(other_player[9]) > 807) and (other_player[7]+ (other_player[5])/(other_player[9]) < 914) ) {selected_destination_red = OAT;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7]+ (other_player[5])/(other_player[9]) > 665) and (other_player[7]+ (other_player[5])/(other_player[9]) < 836) ) {selected_destination_red = Playground;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7]+ (other_player[5])/(other_player[9]) > 927) and (other_player[7]+ (other_player[5])/(other_player[9]) < 1046) ) {selected_destination_red = Research;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7]+ (other_player[5])/(other_player[9]) > 448) and (other_player[7]+ (other_player[5])/(other_player[9]) < 564) ) {selected_destination_red = Library;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7]+ (other_player[5])/(other_player[9]) > 712) and (other_player[7]+ (other_player[5])/(other_player[9]) < 848) ) {selected_destination_red = Apartments_girls;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7]+ (other_player[5])/(other_player[9]) > 611) and (other_player[7]+ (other_player[5])/(other_player[9]) < 769) ) {selected_destination_red = LHC;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7]+ (other_player[5])/(other_player[9]) > 176) and (other_player[7]+ (other_player[5])/(other_player[9]) < 278) ) {selected_destination_red = Red_Home;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7]+ (other_player[5])/(other_player[9]) > 444) and (other_player[7]+ (other_player[5])/(other_player[9]) < 536) ) {selected_destination_red = Market;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7]+ (other_player[5])/(other_player[9]) > 249) and (other_player[7]+ (other_player[5])/(other_player[9]) < 349) ) {selected_destination_red = Amaltas;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7]+ (other_player[5])/(other_player[9]) > 428) and (other_player[7]+ (other_player[5])/(other_player[9]) < 542) ) {selected_destination_red = School;}
 
                                         else {selected_destination_red = NULL;}
 
@@ -1164,11 +1240,12 @@ class Play_State{
 
                                     if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         // selected powerup 1 Fire Circle
-                                        if (Apartments_boys->power_available){
+                                        if (Apartments_boys->power_available and Apartments_boys->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Fire Circle"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Fire Circle";
                                                 }
@@ -1180,11 +1257,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 2 Shield
-                                        if (Hospital->power_available){
+                                        if (Hospital->power_available and Hospital->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Shield"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Shield";
                                                 }
@@ -1196,11 +1274,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 3 EMP
-                                        if (Research->power_available){
+                                        if (Research->power_available and Research->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "EMP"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "EMP";
                                                 }
@@ -1212,11 +1291,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 4 Road Block
-                                        if (OAT->power_available){
+                                        if (OAT->power_available and OAT->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Road Block"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Road Block";
                                                 }
@@ -1228,11 +1308,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 5 Freeze
-                                        if (LHC->power_available){
+                                        if (LHC->power_available and LHC->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Freeze"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Freeze";
                                                 }
@@ -1244,11 +1325,12 @@ class Play_State{
 
                                     }else if ((click_x > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (click_x < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (click_y < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (click_y > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
                                         //selected powerup 6 Acid Circle
-                                        if (Apartments_girls->power_available){
+                                        if (Apartments_girls->power_available and Apartments_girls->loyalty == "Red"){
                                             selected_origin_red = NULL;
                                             if (power_is_selected_red){
                                                 if (selected_power_red == "Acid Circle"){
                                                     power_is_selected_red = false;
+                                                    selected_power_red = "None";
                                                 }else{
                                                     selected_power_red = "Acid Circle";
                                                 }
@@ -1274,7 +1356,10 @@ class Play_State{
                                             Apartments_boys->power_restore_time = 15;
                                             Apartments_boys->power_strength = 10;
 
+                                            Mix_PlayChannel( -1, gFire_sound, 0 );
+
                                         }
+
                                         else if(selected_power_red=="Shield"){// works only on buildings
 
 
@@ -1304,6 +1389,8 @@ class Play_State{
                                                 Hospital->power_stay_time = 2;
                                                 Hospital->radius = 200;
                                                 Hospital->power_restore_time = 15;
+
+                                                Mix_PlayChannel( -1, gShield_sound, 0 );
                                             }
                                         }
 
@@ -1338,6 +1425,8 @@ class Play_State{
                                                 Research->power_restore_time = 15;
                                                 Research->power_strength = 18;
 
+                                                Mix_PlayChannel( -1, gEMP_sound, 0 );
+
                                             }else{
                                                 // display error, click on an enemy building
                                             }
@@ -1345,6 +1434,7 @@ class Play_State{
 
 
                                         }
+
                                         else if (selected_power_red=="Road Block"){// works only on roads
                                             OAT->power_available = false;
                                             OAT->power_circle_centre_x = Current_view_x + (click_x)/(SCALING_FACTOR_X);
@@ -1352,12 +1442,17 @@ class Play_State{
                                             OAT->power_stay_time = 4;
                                             OAT->radius = 40;
                                             OAT->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gWall_sound, 0 );
                                         }
                                         else if (selected_power_red=="Freeze"){// works on every action of the opponent 
                                             LHC->power_available = false;
                                             LHC->power_stay_time = 4;
                                             LHC->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gFreeze_sound, 0 );
                                         }
+
                                         else if (selected_power_red=="Acid Circle"){// works only on moving targets
                                             Apartments_girls->power_available = false;
                                             Apartments_girls->power_circle_centre_x = Current_view_x + (click_x)/(SCALING_FACTOR_X);
@@ -1366,6 +1461,8 @@ class Play_State{
                                             Apartments_girls->radius = 180;
                                             Apartments_girls->power_restore_time = 15;
                                             Apartments_girls->power_strength = 10;
+
+                                            Mix_PlayChannel( -1, gAcid_sound, 0 );
                                         }
 
                                         selected_power_red = "None";
@@ -1453,7 +1550,7 @@ class Play_State{
                     // text[] = {state, clicked, isleft, isright, click_x, click_y, Current_view_x, Current_view_y, isquit}
 
                     if (!(quit)){
-                        if (other_player[8] == 1){
+                        if (other_player[10] == 1){
                             quit = true;
                             isquit = 1;
                         }
@@ -1462,13 +1559,14 @@ class Play_State{
 
                                     // the six power buttons
 
-                                    if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*7.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*5.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         // selected powerup 1 Fire Circle
-                                        if (Apartments_boys->power_available){
+                                        if (Apartments_boys->power_available and Apartments_boys->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Fire Circle"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Fire Circle";
                                                 }
@@ -1478,13 +1576,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*4.75/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.75/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 2 Shield
-                                        if (Hospital->power_available){
+                                        if (Hospital->power_available and Hospital->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Shield"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Shield";
                                                 }
@@ -1494,13 +1593,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*2.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)-(SCREEN_WIDTH*0.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 3 EMP
-                                        if (Research->power_available){
+                                        if (Research->power_available and Research->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "EMP"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "EMP";
                                                 }
@@ -1510,13 +1610,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*0.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*0.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 4 Road Block
-                                        if (OAT->power_available){
+                                        if (OAT->power_available and OAT->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Road Block"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Road Block";
                                                 }
@@ -1526,13 +1627,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.75/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*4.75/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*2.75/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*4.75/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 5 Freeze
-                                        if (LHC->power_available){
+                                        if (LHC->power_available and LHC->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Freeze"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Freeze";
                                                 }
@@ -1542,13 +1644,14 @@ class Play_State{
                                             }
                                         }
 
-                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*5.25/30))*SCALING_FACTOR_X) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*7.25/30))*SCALING_FACTOR_X) and (other_player[5] < (SCREEN_HEIGHT*29/30)*SCALING_FACTOR_Y) and (other_player[5] > (SCREEN_HEIGHT*27/30)*SCALING_FACTOR_Y)) {
+                                    }else if ((other_player[4] > ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*5.25/30))*other_player[8]) and (other_player[4] < ((SCREEN_WIDTH/2)+(SCREEN_WIDTH*7.25/30))*other_player[8]) and (other_player[5] < (SCREEN_HEIGHT*29/30)*other_player[9]) and (other_player[5] > (SCREEN_HEIGHT*27/30)*other_player[9])) {
                                         //selected powerup 6 Acid Circle
-                                        if (Apartments_girls->power_available){
+                                        if (Apartments_girls->power_available and Apartments_girls->loyalty == "Blue"){
                                             selected_origin_blue = NULL;
                                             if (power_is_selected_blue){
                                                 if (selected_power_blue == "Acid Circle"){
                                                     power_is_selected_blue = false;
+                                                    selected_power_blue = "None";
                                                 }else{
                                                     selected_power_blue = "Acid Circle";
                                                 }
@@ -1567,36 +1670,38 @@ class Play_State{
 
                                         if (selected_power_blue=="Fire Circle"){// works only on moving soldiers
                                             Apartments_boys->power_available = false;
-                                            Apartments_boys->power_circle_centre_x = other_player[6] + (other_player[4])/(SCALING_FACTOR_X);
-                                            Apartments_boys->power_circle_centre_y = other_player[7] + (other_player[5])/(SCALING_FACTOR_Y);
+                                            Apartments_boys->power_circle_centre_x = other_player[6] + (other_player[4])/(other_player[8]);
+                                            Apartments_boys->power_circle_centre_y = other_player[7] + (other_player[5])/(other_player[9]);
                                             Apartments_boys->power_stay_time = 2;
                                             Apartments_boys->radius = 180;
                                             Apartments_boys->power_restore_time = 15;
                                             Apartments_boys->power_strength = 10;
 
+                                            Mix_PlayChannel( -1, gFire_sound, 0 );
                                         }
+
                                         else if(selected_power_blue=="Shield"){// works only on buildings
 
 
                                             bool correct_place_click = false;
 
-                                            if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 286) and (Jwala->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Jwala->x; Hospital->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 298) and (Blue_Home->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Blue_Home->x; Hospital->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 619) and (Kara->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Kara->x; Hospital->power_circle_centre_y = Kara->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 567) and (Masala->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Masala->x; Hospital->power_circle_centre_y = Masala->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 572) and (Hospital->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Hospital->x; Hospital->power_circle_centre_y = Hospital->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 385) and (Main_building->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Main_building->x; Hospital->power_circle_centre_y = Main_building->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 860) and (Apartments_boys->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_boys->x; Hospital->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 914) and (OAT->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = OAT->x; Hospital->power_circle_centre_y = OAT->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 836) and (Playground->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Playground->x; Hospital->power_circle_centre_y = Playground->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 1046) and (Research->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Research->x; Hospital->power_circle_centre_y = Research->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 564) and (Library->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Library->x; Hospital->power_circle_centre_y = Library->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 848) and (Apartments_girls->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_girls->x; Hospital->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 769) and (LHC->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = LHC->x; Hospital->power_circle_centre_y = LHC->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 278) and (Red_Home->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Red_Home->x; Hospital->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 536) and (Market->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Market->x; Hospital->power_circle_centre_y = Market->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 349) and (Amaltas->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Amaltas->x; Hospital->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 542) and (School->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = School->x; Hospital->power_circle_centre_y = School->y; correct_place_click = true;}
+                                            if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7] + (other_player[5])/(other_player[9]) > 169) and (other_player[7] + (other_player[5])/(other_player[9]) < 286) and (Jwala->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Jwala->x; Hospital->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7] + (other_player[5])/(other_player[9]) > 201) and (other_player[7] + (other_player[5])/(other_player[9]) < 298) and (Blue_Home->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Blue_Home->x; Hospital->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7] + (other_player[5])/(other_player[9]) > 507) and (other_player[7] + (other_player[5])/(other_player[9]) < 619) and (Kara->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Kara->x; Hospital->power_circle_centre_y = Kara->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7] + (other_player[5])/(other_player[9]) > 471) and (other_player[7] + (other_player[5])/(other_player[9]) < 567) and (Masala->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Masala->x; Hospital->power_circle_centre_y = Masala->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7] + (other_player[5])/(other_player[9]) > 453) and (other_player[7] + (other_player[5])/(other_player[9]) < 572) and (Hospital->loyalty == Hospital->loyalty) ) {Hospital->power_circle_centre_x = Hospital->x; Hospital->power_circle_centre_y = Hospital->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7] + (other_player[5])/(other_player[9]) > 231) and (other_player[7] + (other_player[5])/(other_player[9]) < 385) and (Main_building->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Main_building->x; Hospital->power_circle_centre_y = Main_building->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7] + (other_player[5])/(other_player[9]) > 756) and (other_player[7] + (other_player[5])/(other_player[9]) < 860) and (Apartments_boys->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_boys->x; Hospital->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7] + (other_player[5])/(other_player[9]) > 807) and (other_player[7] + (other_player[5])/(other_player[9]) < 914) and (OAT->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = OAT->x; Hospital->power_circle_centre_y = OAT->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7] + (other_player[5])/(other_player[9]) > 665) and (other_player[7] + (other_player[5])/(other_player[9]) < 836) and (Playground->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Playground->x; Hospital->power_circle_centre_y = Playground->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7] + (other_player[5])/(other_player[9]) > 927) and (other_player[7] + (other_player[5])/(other_player[9]) < 1046) and (Research->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Research->x; Hospital->power_circle_centre_y = Research->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7] + (other_player[5])/(other_player[9]) > 448) and (other_player[7] + (other_player[5])/(other_player[9]) < 564) and (Library->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Library->x; Hospital->power_circle_centre_y = Library->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7] + (other_player[5])/(other_player[9]) > 712) and (other_player[7] + (other_player[5])/(other_player[9]) < 848) and (Apartments_girls->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Apartments_girls->x; Hospital->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7] + (other_player[5])/(other_player[9]) > 611) and (other_player[7] + (other_player[5])/(other_player[9]) < 769) and (LHC->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = LHC->x; Hospital->power_circle_centre_y = LHC->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7] + (other_player[5])/(other_player[9]) > 176) and (other_player[7] + (other_player[5])/(other_player[9]) < 278) and (Red_Home->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Red_Home->x; Hospital->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7] + (other_player[5])/(other_player[9]) > 444) and (other_player[7] + (other_player[5])/(other_player[9]) < 536) and (Market->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Market->x; Hospital->power_circle_centre_y = Market->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7] + (other_player[5])/(other_player[9]) > 249) and (other_player[7] + (other_player[5])/(other_player[9]) < 349) and (Amaltas->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = Amaltas->x; Hospital->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7] + (other_player[5])/(other_player[9]) > 428) and (other_player[7] + (other_player[5])/(other_player[9]) < 542) and (School->loyalty ==  Hospital->loyalty) ) {Hospital->power_circle_centre_x = School->x; Hospital->power_circle_centre_y = School->y; correct_place_click = true;}
 
 
                                             if (correct_place_click){
@@ -1604,6 +1709,8 @@ class Play_State{
                                                 Hospital->power_stay_time = 2;
                                                 Hospital->radius = 200;
                                                 Hospital->power_restore_time = 15;
+
+                                                Mix_PlayChannel( -1, gShield_sound, 0 );
                                             }
                                         }
 
@@ -1614,29 +1721,31 @@ class Play_State{
 
                                             bool correct_place_click = false;
 
-                                            if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 286) and (Jwala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Jwala->x; Research->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 298) and (Blue_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Blue_Home->x; Research->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 619) and (Kara->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Kara->x; Research->power_circle_centre_y = Kara->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 567) and (Masala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Masala->x; Research->power_circle_centre_y = Masala->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 572) and (Hospital->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Hospital->x; Research->power_circle_centre_y = Hospital->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 385) and (Main_building->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Main_building->x; Research->power_circle_centre_y = Main_building->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 860) and (Apartments_boys->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_boys->x; Research->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 914) and (OAT->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = OAT->x; Research->power_circle_centre_y = OAT->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 836) and (Playground->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Playground->x; Research->power_circle_centre_y = Playground->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 1046) and (Research->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Research->x; Research->power_circle_centre_y = Research->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 564) and (Library->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Library->x; Research->power_circle_centre_y = Library->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 848) and (Apartments_girls->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_girls->x; Research->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 769) and (LHC->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = LHC->x; Research->power_circle_centre_y = LHC->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 278) and (Red_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Red_Home->x; Research->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 536) and (Market->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Market->x; Research->power_circle_centre_y = Market->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 349) and (Amaltas->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Amaltas->x; Research->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
-                                            else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 542) and (School->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = School->x; Research->power_circle_centre_y = School->y; correct_place_click = true;}
+                                            if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7] + (other_player[5])/(other_player[9]) > 169) and (other_player[7] + (other_player[5])/(other_player[9]) < 286) and (Jwala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Jwala->x; Research->power_circle_centre_y = Jwala->y ; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7] + (other_player[5])/(other_player[9]) > 201) and (other_player[7] + (other_player[5])/(other_player[9]) < 298) and (Blue_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Blue_Home->x; Research->power_circle_centre_y = Blue_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7] + (other_player[5])/(other_player[9]) > 507) and (other_player[7] + (other_player[5])/(other_player[9]) < 619) and (Kara->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Kara->x; Research->power_circle_centre_y = Kara->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7] + (other_player[5])/(other_player[9]) > 471) and (other_player[7] + (other_player[5])/(other_player[9]) < 567) and (Masala->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Masala->x; Research->power_circle_centre_y = Masala->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7] + (other_player[5])/(other_player[9]) > 453) and (other_player[7] + (other_player[5])/(other_player[9]) < 572) and (Hospital->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Hospital->x; Research->power_circle_centre_y = Hospital->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7] + (other_player[5])/(other_player[9]) > 231) and (other_player[7] + (other_player[5])/(other_player[9]) < 385) and (Main_building->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Main_building->x; Research->power_circle_centre_y = Main_building->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7] + (other_player[5])/(other_player[9]) > 756) and (other_player[7] + (other_player[5])/(other_player[9]) < 860) and (Apartments_boys->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_boys->x; Research->power_circle_centre_y = Apartments_boys->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7] + (other_player[5])/(other_player[9]) > 807) and (other_player[7] + (other_player[5])/(other_player[9]) < 914) and (OAT->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = OAT->x; Research->power_circle_centre_y = OAT->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7] + (other_player[5])/(other_player[9]) > 665) and (other_player[7] + (other_player[5])/(other_player[9]) < 836) and (Playground->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Playground->x; Research->power_circle_centre_y = Playground->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7] + (other_player[5])/(other_player[9]) > 927) and (other_player[7] + (other_player[5])/(other_player[9]) < 1046) and (Research->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Research->x; Research->power_circle_centre_y = Research->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7] + (other_player[5])/(other_player[9]) > 448) and (other_player[7] + (other_player[5])/(other_player[9]) < 564) and (Library->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Library->x; Research->power_circle_centre_y = Library->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7] + (other_player[5])/(other_player[9]) > 712) and (other_player[7] + (other_player[5])/(other_player[9]) < 848) and (Apartments_girls->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Apartments_girls->x; Research->power_circle_centre_y = Apartments_girls->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7] + (other_player[5])/(other_player[9]) > 611) and (other_player[7] + (other_player[5])/(other_player[9]) < 769) and (LHC->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = LHC->x; Research->power_circle_centre_y = LHC->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7] + (other_player[5])/(other_player[9]) > 176) and (other_player[7] + (other_player[5])/(other_player[9]) < 278) and (Red_Home->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Red_Home->x; Research->power_circle_centre_y = Red_Home->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7] + (other_player[5])/(other_player[9]) > 444) and (other_player[7] + (other_player[5])/(other_player[9]) < 536) and (Market->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Market->x; Research->power_circle_centre_y = Market->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7] + (other_player[5])/(other_player[9]) > 249) and (other_player[7] + (other_player[5])/(other_player[9]) < 349) and (Amaltas->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = Amaltas->x; Research->power_circle_centre_y = Amaltas->y; correct_place_click = true;}
+                                            else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7] + (other_player[5])/(other_player[9]) > 428) and (other_player[7] + (other_player[5])/(other_player[9]) < 542) and (School->loyalty != Research->loyalty) ) {Research->power_circle_centre_x = School->x; Research->power_circle_centre_y = School->y; correct_place_click = true;}
                                             
                                             if (correct_place_click){
                                                 Research->power_stay_time = 1;
                                                 Research->radius = 150;
                                                 Research->power_restore_time = 15;
                                                 Research->power_strength = 18;
+
+                                                Mix_PlayChannel( -1, gEMP_sound, 0 );
 
                                             }else{
                                                 // display error, click on an enemy building
@@ -1647,25 +1756,33 @@ class Play_State{
                                         }
                                         else if (selected_power_blue=="Road Block"){// works only on roads
                                             OAT->power_available = false;
-                                            OAT->power_circle_centre_x = other_player[6] + (other_player[4])/(SCALING_FACTOR_X);
-                                            OAT->power_circle_centre_y = other_player[7] + (other_player[5])/(SCALING_FACTOR_Y);
+                                            OAT->power_circle_centre_x = other_player[6] + (other_player[4])/(other_player[8]);
+                                            OAT->power_circle_centre_y = other_player[7] + (other_player[5])/(other_player[9]);
                                             OAT->power_stay_time = 4;
                                             OAT->radius = 40;
                                             OAT->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gWall_sound, 0 );
                                         }
+
                                         else if (selected_power_blue=="Freeze"){// works on every action of the opponent 
                                             LHC->power_available = false;
                                             LHC->power_stay_time = 4;
                                             LHC->power_restore_time = 15;
+
+                                            Mix_PlayChannel( -1, gFreeze_sound, 0 );
                                         }
+
                                         else if (selected_power_blue=="Acid Circle"){// works only on moving targets
                                             Apartments_girls->power_available = false;
-                                            Apartments_girls->power_circle_centre_x = other_player[6] + (other_player[4])/(SCALING_FACTOR_X);
-                                            Apartments_girls->power_circle_centre_y = other_player[7] + (other_player[5])/(SCALING_FACTOR_Y);
+                                            Apartments_girls->power_circle_centre_x = other_player[6] + (other_player[4])/(other_player[8]);
+                                            Apartments_girls->power_circle_centre_y = other_player[7] + (other_player[5])/(other_player[9]);
                                             Apartments_girls->power_stay_time = 2;
                                             Apartments_girls->radius = 180;
                                             Apartments_girls->power_restore_time = 15;
                                             Apartments_girls->power_strength = 10;
+
+                                            Mix_PlayChannel( -1, gAcid_sound, 0 );
                                         }
 
                                         selected_power_blue = "None";
@@ -1674,23 +1791,23 @@ class Play_State{
                                     // using equation of ellipse: x^2/a^2 + y^2/b^2 < 1 for an inside point
 
                                     //selecting origin
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 286) and (Jwala->loyalty == "Blue") ) {selected_origin_blue = Jwala;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 298) and (Blue_Home->loyalty == "Blue") ) {selected_origin_blue = Blue_Home;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 619) and (Kara->loyalty == "Blue") ) {selected_origin_blue = Kara;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 567) and (Masala->loyalty == "Blue") ) {selected_origin_blue = Masala;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 572) and (Hospital->loyalty == "Blue") ) {selected_origin_blue = Hospital;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 385) and (Main_building->loyalty == "Blue") ) {selected_origin_blue = Main_building;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 860) and (Apartments_boys->loyalty == "Blue") ) {selected_origin_blue = Apartments_boys;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 914) and (OAT->loyalty == "Blue") ) {selected_origin_blue = OAT;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 836) and (Playground->loyalty == "Blue") ) {selected_origin_blue = Playground;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 1046) and (Research->loyalty == "Blue") ) {selected_origin_blue = Research;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 564) and (Library->loyalty == "Blue") ) {selected_origin_blue = Library;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 848) and (Apartments_girls->loyalty == "Blue") ) {selected_origin_blue = Apartments_girls;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 769) and (LHC->loyalty == "Blue") ) {selected_origin_blue = LHC;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 278) and (Red_Home->loyalty == "Blue") ) {selected_origin_blue = Red_Home;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 536) and (Market->loyalty == "Blue") ) {selected_origin_blue = Market;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 349) and (Amaltas->loyalty == "Blue") ) {selected_origin_blue = Amaltas;}
-                                    else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7] + (other_player[5])/(SCALING_FACTOR_Y) < 542) and (School->loyalty == "Blue") ) {selected_origin_blue = School;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7] + (other_player[5])/(other_player[9]) > 169) and (other_player[7] + (other_player[5])/(other_player[9]) < 286) and (Jwala->loyalty == "Blue") ) {selected_origin_blue = Jwala;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7] + (other_player[5])/(other_player[9]) > 201) and (other_player[7] + (other_player[5])/(other_player[9]) < 298) and (Blue_Home->loyalty == "Blue") ) {selected_origin_blue = Blue_Home;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7] + (other_player[5])/(other_player[9]) > 507) and (other_player[7] + (other_player[5])/(other_player[9]) < 619) and (Kara->loyalty == "Blue") ) {selected_origin_blue = Kara;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7] + (other_player[5])/(other_player[9]) > 471) and (other_player[7] + (other_player[5])/(other_player[9]) < 567) and (Masala->loyalty == "Blue") ) {selected_origin_blue = Masala;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7] + (other_player[5])/(other_player[9]) > 453) and (other_player[7] + (other_player[5])/(other_player[9]) < 572) and (Hospital->loyalty == "Blue") ) {selected_origin_blue = Hospital;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7] + (other_player[5])/(other_player[9]) > 231) and (other_player[7] + (other_player[5])/(other_player[9]) < 385) and (Main_building->loyalty == "Blue") ) {selected_origin_blue = Main_building;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7] + (other_player[5])/(other_player[9]) > 756) and (other_player[7] + (other_player[5])/(other_player[9]) < 860) and (Apartments_boys->loyalty == "Blue") ) {selected_origin_blue = Apartments_boys;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7] + (other_player[5])/(other_player[9]) > 807) and (other_player[7] + (other_player[5])/(other_player[9]) < 914) and (OAT->loyalty == "Blue") ) {selected_origin_blue = OAT;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7] + (other_player[5])/(other_player[9]) > 665) and (other_player[7] + (other_player[5])/(other_player[9]) < 836) and (Playground->loyalty == "Blue") ) {selected_origin_blue = Playground;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7] + (other_player[5])/(other_player[9]) > 927) and (other_player[7] + (other_player[5])/(other_player[9]) < 1046) and (Research->loyalty == "Blue") ) {selected_origin_blue = Research;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7] + (other_player[5])/(other_player[9]) > 448) and (other_player[7] + (other_player[5])/(other_player[9]) < 564) and (Library->loyalty == "Blue") ) {selected_origin_blue = Library;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7] + (other_player[5])/(other_player[9]) > 712) and (other_player[7] + (other_player[5])/(other_player[9]) < 848) and (Apartments_girls->loyalty == "Blue") ) {selected_origin_blue = Apartments_girls;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7] + (other_player[5])/(other_player[9]) > 611) and (other_player[7] + (other_player[5])/(other_player[9]) < 769) and (LHC->loyalty == "Blue") ) {selected_origin_blue = LHC;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7] + (other_player[5])/(other_player[9]) > 176) and (other_player[7] + (other_player[5])/(other_player[9]) < 278) and (Red_Home->loyalty == "Blue") ) {selected_origin_blue = Red_Home;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7] + (other_player[5])/(other_player[9]) > 444) and (other_player[7] + (other_player[5])/(other_player[9]) < 536) and (Market->loyalty == "Blue") ) {selected_origin_blue = Market;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7] + (other_player[5])/(other_player[9]) > 249) and (other_player[7] + (other_player[5])/(other_player[9]) < 349) and (Amaltas->loyalty == "Blue") ) {selected_origin_blue = Amaltas;}
+                                    else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7] + (other_player[5])/(other_player[9]) > 428) and (other_player[7] + (other_player[5])/(other_player[9]) < 542) and (School->loyalty == "Blue") ) {selected_origin_blue = School;}
 
 
 
@@ -1705,23 +1822,23 @@ class Play_State{
                                         // Rectangle selection instead of ellipse here. Ellipse to be used for power circles. 
 
                                         // selecting destination
-                                        if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 366) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 454) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 169) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 286) ) {selected_destination_blue = Jwala;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 735) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 881) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 201) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 298) ) {selected_destination_blue = Blue_Home;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 355) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 438) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 507) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 619) ) {selected_destination_blue = Kara;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 815) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 936) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 471) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 567) ) {selected_destination_blue = Masala;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1041) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1187) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 453) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 572) ) {selected_destination_blue = Hospital;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1487) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1855) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 231) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 385) ) {selected_destination_blue = Main_building;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 175) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 267) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 756) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 860) ) {selected_destination_blue = Apartments_boys;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 763) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 877) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 807) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 914) ) {selected_destination_blue = OAT;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1197) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1471) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 665) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 836) ) {selected_destination_blue = Playground;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1409) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1650) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 927) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 1046) ) {selected_destination_blue = Research;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 1627) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 1803) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 448) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 564) ) {selected_destination_blue = Library;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2571) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2693) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 712) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 848) ) {selected_destination_blue = Apartments_girls;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2008) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2230) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 611) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 769) ) {selected_destination_blue = LHC;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2229) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2385) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 176) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 278) ) {selected_destination_blue = Red_Home;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2613) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2708) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 444) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 536) ) {selected_destination_blue = Market;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2606) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2727) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 249) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 349) ) {selected_destination_blue = Amaltas;}
-                                        else if ((other_player[6] + (other_player[4])/(SCALING_FACTOR_X) > 2208) and (other_player[6] + (other_player[4])/(SCALING_FACTOR_X) < 2366) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) > 428) and (other_player[7]+ (other_player[5])/(SCALING_FACTOR_Y) < 542) ) {selected_destination_blue = School;}
+                                        if ((other_player[6] + (other_player[4])/(other_player[8]) > 366) and (other_player[6] + (other_player[4])/(other_player[8]) < 454) and (other_player[7]+ (other_player[5])/(other_player[9]) > 169) and (other_player[7]+ (other_player[5])/(other_player[9]) < 286) ) {selected_destination_blue = Jwala;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 735) and (other_player[6] + (other_player[4])/(other_player[8]) < 881) and (other_player[7]+ (other_player[5])/(other_player[9]) > 201) and (other_player[7]+ (other_player[5])/(other_player[9]) < 298) ) {selected_destination_blue = Blue_Home;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 355) and (other_player[6] + (other_player[4])/(other_player[8]) < 438) and (other_player[7]+ (other_player[5])/(other_player[9]) > 507) and (other_player[7]+ (other_player[5])/(other_player[9]) < 619) ) {selected_destination_blue = Kara;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 815) and (other_player[6] + (other_player[4])/(other_player[8]) < 936) and (other_player[7]+ (other_player[5])/(other_player[9]) > 471) and (other_player[7]+ (other_player[5])/(other_player[9]) < 567) ) {selected_destination_blue = Masala;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1041) and (other_player[6] + (other_player[4])/(other_player[8]) < 1187) and (other_player[7]+ (other_player[5])/(other_player[9]) > 453) and (other_player[7]+ (other_player[5])/(other_player[9]) < 572) ) {selected_destination_blue = Hospital;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1487) and (other_player[6] + (other_player[4])/(other_player[8]) < 1855) and (other_player[7]+ (other_player[5])/(other_player[9]) > 231) and (other_player[7]+ (other_player[5])/(other_player[9]) < 385) ) {selected_destination_blue = Main_building;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 175) and (other_player[6] + (other_player[4])/(other_player[8]) < 267) and (other_player[7]+ (other_player[5])/(other_player[9]) > 756) and (other_player[7]+ (other_player[5])/(other_player[9]) < 860) ) {selected_destination_blue = Apartments_boys;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 763) and (other_player[6] + (other_player[4])/(other_player[8]) < 877) and (other_player[7]+ (other_player[5])/(other_player[9]) > 807) and (other_player[7]+ (other_player[5])/(other_player[9]) < 914) ) {selected_destination_blue = OAT;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1197) and (other_player[6] + (other_player[4])/(other_player[8]) < 1471) and (other_player[7]+ (other_player[5])/(other_player[9]) > 665) and (other_player[7]+ (other_player[5])/(other_player[9]) < 836) ) {selected_destination_blue = Playground;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1409) and (other_player[6] + (other_player[4])/(other_player[8]) < 1650) and (other_player[7]+ (other_player[5])/(other_player[9]) > 927) and (other_player[7]+ (other_player[5])/(other_player[9]) < 1046) ) {selected_destination_blue = Research;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 1627) and (other_player[6] + (other_player[4])/(other_player[8]) < 1803) and (other_player[7]+ (other_player[5])/(other_player[9]) > 448) and (other_player[7]+ (other_player[5])/(other_player[9]) < 564) ) {selected_destination_blue = Library;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2571) and (other_player[6] + (other_player[4])/(other_player[8]) < 2693) and (other_player[7]+ (other_player[5])/(other_player[9]) > 712) and (other_player[7]+ (other_player[5])/(other_player[9]) < 848) ) {selected_destination_blue = Apartments_girls;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2008) and (other_player[6] + (other_player[4])/(other_player[8]) < 2230) and (other_player[7]+ (other_player[5])/(other_player[9]) > 611) and (other_player[7]+ (other_player[5])/(other_player[9]) < 769) ) {selected_destination_blue = LHC;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2229) and (other_player[6] + (other_player[4])/(other_player[8]) < 2385) and (other_player[7]+ (other_player[5])/(other_player[9]) > 176) and (other_player[7]+ (other_player[5])/(other_player[9]) < 278) ) {selected_destination_blue = Red_Home;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2613) and (other_player[6] + (other_player[4])/(other_player[8]) < 2708) and (other_player[7]+ (other_player[5])/(other_player[9]) > 444) and (other_player[7]+ (other_player[5])/(other_player[9]) < 536) ) {selected_destination_blue = Market;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2606) and (other_player[6] + (other_player[4])/(other_player[8]) < 2727) and (other_player[7]+ (other_player[5])/(other_player[9]) > 249) and (other_player[7]+ (other_player[5])/(other_player[9]) < 349) ) {selected_destination_blue = Amaltas;}
+                                        else if ((other_player[6] + (other_player[4])/(other_player[8]) > 2208) and (other_player[6] + (other_player[4])/(other_player[8]) < 2366) and (other_player[7]+ (other_player[5])/(other_player[9]) > 428) and (other_player[7]+ (other_player[5])/(other_player[9]) < 542) ) {selected_destination_blue = School;}
 
                                         else {selected_destination_blue = NULL;}
 
@@ -1769,7 +1886,7 @@ class Play_State{
                     reset();
                 }
 
-            }else if (other_player[8]==1){
+            }else if (other_player[10]==1){
                 // other player has quit
                 quit = true;
                 isquit = 1;
