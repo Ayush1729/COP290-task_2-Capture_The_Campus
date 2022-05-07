@@ -7,7 +7,7 @@ To know more about the game, refer to Game_Info.pdf file.
 
 ### Setting up SDL environment
 Before running the game, first set up the required SDL environment and install the below mentioned libraries and packages.  
-NOTE: The below mentioned steps and commands are for linux based operating systems.
+**NOTE:** The below mentioned steps and commands are for *linux based operating systems.*
 
 - Installing the development package of SDL2
 ```
@@ -63,6 +63,7 @@ Ayush Meena 2019EE10468
 Garv Kumar 2019EE10477
 
 ### References
+- https://wiki.libsdl.org/FrontPage
 - https://lazyfoo.net/tutorials/SDL/index.php
 - http://www.sdltutorials.com
 - https://www.libsdl.org/projects/SDL_net/docs/index.html
