@@ -1,1 +1,3 @@
 Status of the game:
+The game is working as we have envisioned it. All the controls, I/Os, sound effects and visuals are working fine.  
+We were only not able to implement the multiplayer part of the game as it should be. We were facing problems connecting the server and client-side code over a network and send/receive data packets using socket programming. We tried to connect it over different networks, but the problem persisted. Therefore, we used the loopback IPAddress to play the game on a single device with two-game windows. Both players will play the game on the same desktop, and each player has to select their moves one by one.
