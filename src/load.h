@@ -1,21 +1,17 @@
 
-SDL_Texture* loadTexture(char* path)
-{
+SDL_Texture* loadTexture(char* path) {
     //The final texture
     SDL_Texture* newTexture = NULL;
 
     //Load image at specified path
     SDL_Surface* loadedSurface = IMG_Load(path);
-    if( loadedSurface == NULL )
-    {
+    if( loadedSurface == NULL ) {
         std::cout<<"Unable to load image ! SDL_image Error: "<< IMG_GetError();
     }
-    else
-    {
+    else {
         //Create texture from surface pixels
         newTexture = SDL_CreateTextureFromSurface( gRenderer, loadedSurface );
-        if( newTexture == NULL )
-        {
+        if( newTexture == NULL ) {
             std::cout<<"Unable to create texture from! SDL Error: "<< SDL_GetError() ;
         }
 
@@ -30,23 +26,17 @@ SDL_Texture* loadTexture(char* path)
 
 
 
-bool loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* Font)
-{
-    //Get rid of preexisting texture
-    //free();
+bool loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font* Font) {
 
     //Render text surface
     SDL_Surface* textSurface = TTF_RenderText_Solid( Font, textureText.c_str(), textColor );
-    if( textSurface == NULL )
-    {
+    if( textSurface == NULL ) {
         std::cout<<"Unable to render text surface! SDL_ttf Error: "<<TTF_GetError()<<std::endl;
     }
-    else
-    {
+    else {
         //Create texture from surface pixels
         gTextTexture = SDL_CreateTextureFromSurface( gRenderer, textSurface );
-        if( gTextTexture == NULL )
-        {
+        if( gTextTexture == NULL ) {
             std::cout<<"Unable to create texture from rendered text! SDL Error: "<< SDL_GetError()<<std::endl;
         }
 
@@ -60,8 +50,7 @@ bool loadFromRenderedText(std::string textureText, SDL_Color textColor, TTF_Font
 
 
 
-bool loadMedia()
-{
+bool loadMedia() {
 
     //Load PNG texture
     gTexture =  loadTexture("../Graphics/background.jpg");
@@ -114,11 +103,6 @@ bool loadMedia()
     SDL_SetTextureBlendMode( gTexture_blue_fire, SDL_BLENDMODE_BLEND );
     SDL_SetTextureAlphaMod( gTexture_blue_fire, 128 );
 
-/*
-    SDL_SetTextureBlendMode( gTexture_emp, SDL_BLENDMODE_BLEND );
-    SDL_SetTextureAlphaMod( gTexture_emp, 128 );
-*/
-
 
 
     gflappy = TTF_OpenFont( "../fonts/flappy.ttf", 28 );
@@ -133,10 +117,6 @@ bool loadMedia()
 
 
 
-
-
-
-
     //Load music
     gMusic = Mix_LoadMUS( "../Audio/music.wav" );
     gPlay_Music = Mix_LoadMUS("../Audio/play_music.wav");
@@ -145,16 +125,24 @@ bool loadMedia()
     gbegin_sound = Mix_LoadWAV( "../Audio/gametime.wav" );
     gSelect_sound = Mix_LoadWAV( "../Audio/brick-hit-2.wav" );
     gVictory_sound = Mix_LoadWAV( "../Audio/victory.wav" );
-    gLow = Mix_LoadWAV( "../Audio/explosion.wav" );
+    //gLow = Mix_LoadWAV( "../Audio/explosion.wav" );
 
-    if(( gMusic == NULL ) or (gbegin_sound == NULL) or (gSelect_sound == NULL) or (gVictory_sound == NULL) or (gLow == NULL) or (gPlay_Music == NULL) ) {
+    gShield_sound = Mix_LoadWAV( "../Audio/Shield.wav" );
+    gEMP_sound = Mix_LoadWAV( "../Audio/EMP.wav" );
+    gFreeze_sound = Mix_LoadWAV( "../Audio/Freeze.wav" );
+    gAcid_sound = Mix_LoadWAV( "../Audio/AcidCircle.wav" );
+    gFire_sound = Mix_LoadWAV( "../Audio/FireCircle.wav" );
+    gWall_sound = Mix_LoadWAV( "../Audio/Roadblock.wav" );
+    gCannon_sound = Mix_LoadWAV( "../Audio/Cannon.wav" );
+    gSoldier_start_sound = Mix_LoadWAV( "../Audio/SoldierStart.wav" );
+    gSoldier_attack_sound = Mix_LoadWAV( "../Audio/SoldierAttack.wav" );
+
+
+    if(( gMusic == NULL ) or (gbegin_sound == NULL) or (gSelect_sound == NULL) or (gVictory_sound == NULL) or (gPlay_Music == NULL) ) {
         std::cout<<"Failed to load audio! SDL_mixer Error: "<< Mix_GetError()<< endl;
         error_occ = true;
     }
 
-
-
-    
 
     return error_occ;    
 }
