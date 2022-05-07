@@ -65,4 +65,14 @@ Mix_Music *gPlay_Music = NULL;
 Mix_Chunk *gbegin_sound = NULL;
 Mix_Chunk *gSelect_sound = NULL;
 Mix_Chunk *gVictory_sound = NULL;
-Mix_Chunk *gLow = NULL;
+//Mix_Chunk *gLow = NULL;
+
+Mix_Chunk *gShield_sound = NULL;
+Mix_Chunk *gEMP_sound = NULL;
+Mix_Chunk *gFreeze_sound = NULL;
+Mix_Chunk *gAcid_sound = NULL;
+Mix_Chunk *gFire_sound = NULL;
+Mix_Chunk *gWall_sound = NULL;
+Mix_Chunk *gCannon_sound = NULL;
+Mix_Chunk *gSoldier_start_sound = NULL;
+Mix_Chunk *gSoldier_attack_sound = NULL;
