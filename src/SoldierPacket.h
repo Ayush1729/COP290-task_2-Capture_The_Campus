@@ -838,13 +838,17 @@ public:
 
 		if ((this->loyalty != Fire_building->loyalty) and (Fire_building->power_stay_time > 0)){
 			if ((pow(this->x - Fire_building->power_circle_centre_x,2) + pow(this->y - Fire_building->power_circle_centre_y,2)) < pow(Fire_building->radius,2)) {
-				this->soldiers -= 3;
+				if (((Fire_building->power_stay_time < 0.05)) or ((Fire_building->power_stay_time < 1) and (Fire_building->power_stay_time > 0.95)) or ((Fire_building->power_stay_time < 3) and (Fire_building->power_stay_time > 2.95)) or ((Fire_building->power_stay_time < 2) and (Fire_building->power_stay_time > 1.95))){
+					this->soldiers -= 3;
+				}
 			}
 		}
 
 		if ((this->loyalty != Acid_building->loyalty) and (Acid_building->power_stay_time > 0)){
 			if ((pow(this->x - Acid_building->power_circle_centre_x,2) + pow(this->y - Acid_building->power_circle_centre_y,2)) < pow(Acid_building->radius,2)) {
-				this->soldiers -= 3;
+				if (((Acid_building->power_stay_time < 0.05)) or ((Acid_building->power_stay_time < 1) and (Acid_building->power_stay_time > 0.95)) or ((Acid_building->power_stay_time < 3) and (Acid_building->power_stay_time > 2.95)) or ((Acid_building->power_stay_time < 2) and (Acid_building->power_stay_time > 1.95))){
+					this->soldiers -= 3;
+				}
 			}
 		}
 
